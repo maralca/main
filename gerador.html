@@ -10,7 +10,7 @@
         
         <script type="text/javascript" src="../util/javascript/xtr-grafico-util.js"></script>
         <script type="text/javascript" src="../util/javascript/xtr-query.js"></script>        
-        <script type="text/javascript" src="../util/javascript/xtrRequire.js"></script>
+        <script type="text/javascript" src="../util/javascript/xtr-require.js"></script>
 
         <script type="text/javascript" src="../tab/javascript/xtr-paginacao-script.js"></script>
         <script type="text/javascript" src="../tab/javascript/xtr-tab.js"></script>
@@ -48,17 +48,18 @@
 
         <link rel="stylesheet" href="../grafico/css/xtr-grafico.css">
 
-        <link rel="stylesheet" href="css/foundation-icon-fonts/foundation-icons.css">
+        <link rel="stylesheet" href="css/foundation-icons/foundation-icons.css">
         <link rel="stylesheet" href="css/xtr-icon-size.css">
         <link rel="stylesheet" href="css/xtr-alert.css">
 
         <link rel="stylesheet" href="css/flexbox.css">
+        <link rel="stylesheet" href="css/chartbox.css">
 
         <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
         
     </head>
 
-    <body class="tundra">
+    <body class="tundra" style="margin:auto; width:50%">
         <input type="text" id="tipo" placeholder="Tipo" value="colunas"/>
         <input type="text" id="tema" placeholder="Tema" value="popkitblue"/>
         <input type="number" id="nSeries" placeholder="Series" value="7"/>
@@ -68,6 +69,7 @@
         <div id="NAVBAR" class="xtrTabMenu left-align">
             <ul>
                 <li 
+                    id = "currentChart"
                     class="active" 
                     data-xtr-tab="_xtr_tab_grafico_principal"
                     data-xtr-tab-onload="nowYouSeeMe(this)">
@@ -92,7 +94,7 @@
         <div id="SIDEBAR" class="xtrTabMenu wide150 vertical left divided">
 
         </div>  
-        <div id="chartbox" class="flexbox">    
+        <div id="chartbox" class="chartbox">    
                       
 
             <div id="loading" class="loading">
@@ -162,6 +164,13 @@
         //CONSTRUCAO //
         ///////////////
         try{
+            document.body.addEventListener("keypress",function(event){
+                if(event.keyCode == 27 || event.charCode == 0 || event.key == "Escape"){
+                    var closeButton = document.getElementById("view\:_id1\:_id2\:callback1\:_id127\:_id128\:_id132\:_id233\:button1");
+                    if(closeButton != null)
+                        closeButton.click();
+                }
+            });
             //rawData = #{javascript: xtrJson(compositeData); };
             if(rawData.alt){
                 rawData=rawData.alt;
@@ -181,9 +190,17 @@
             sideBar = new SideBar("#SIDEBAR");
 
             xtrTab = new XtrTab("#NAVBAR");
+            xtrTooltipNAVBAR = new XtrTooltip("NAVBAR_tooltip","top");
+            xtrTooltipNAVBAR.addTrigger("currentChart",{
+                content: "Grafico Exibido"
+            });
+            xtrTooltipNAVBAR.addTrigger("mergeChart",{
+                content: "Mesclar Graficos"
+            });
+            xtrTooltipNAVBAR.addTrigger("customizeChart",{
+                content: "Personalizar Grafico"
+            });
             xtrAble = new XtrAble();
-
-            console.log(xtrAble);
 
             chunkSize = 3;
 
@@ -1343,8 +1360,8 @@
                             generateWithLoading(compositeDataHandler.current());
                         });
                     }
-                    
-                    function makeSelectedCompositeData(XtrTable,isActive,mesclar){
+                }
+                function makeSelectedCompositeData(xtrTable,isActive,mesclar){
 
                         var colunas,coluna;
                         var colunaIndex;
@@ -1372,7 +1389,7 @@
 
                         isActive = !isActive;
 
-                        console.log("selecionando Linhas e colunas",isActive);
+                        console.info("selecionando Linhas e colunas",isActive);
                         colunas = xtrTable.getElements('tbody tr:first-child [data-colunaAtiva="'+isActive+'"]');
                         colunasRef = xtrTable.getElements('tbody tr:first-child [data-colunaAtiva]');
                         var alguma = colunasRef.length != colunas.length;
@@ -1389,14 +1406,14 @@
                             removeLineIndexes.push(removeLineIndex);
                         };
 
-                        console.log("selecao removeu",removeLineIndexes.length,"SERIES");
+                        console.info("selecao removeu",removeLineIndexes.length,"SERIES");
                         for(indexSeeker = 0; removeLineIndexes.length > indexSeeker; indexSeeker++){
                             removeLineIndex = removeLineIndexes[indexSeeker];
                             removeLineIndex = removeLineIndex - indexSeeker;
                             serie = series.splice(removeLineIndex,1)[0];
-                            console.log("=>","(",indexSeeker+1,")",serie.titulo);
+                            console.info("=>","(",indexSeeker+1,")",serie.titulo);
                         };
-                        console.log("selecao removeu",removeColumnIndexes.length,"PONTOS");
+                        console.info("selecao removeu",removeColumnIndexes.length,"PONTOS");
                         for(indexSeeker = 0; removeColumnIndexes.length > indexSeeker; indexSeeker++){
                             removeColumnIndex = removeColumnIndexes[indexSeeker];
                             removeColumnIndex = removeColumnIndex - indexSeeker;
@@ -1410,7 +1427,7 @@
                                 formatados.splice(removeLineIndex,1); 
                             };
                             rotulo = rotulos.splice(removeLineIndex,1);
-                            console.log("=>","(",indexSeeker+1,")",rotulo);
+                            console.info("=>","(",indexSeeker+1,")",rotulo);
                         };
 
                         if(!mesclar){
@@ -1421,7 +1438,6 @@
                         selectTipo = document.getElementById(xtrTable.getId()+"_selectTipo");
 
                         compositeData.tipo = selectTipo.value;
-                        console.log(compositeData.tipo);
                         var notUse = rotulos.length < 1 || series.length < 1;
                         notUse = ["markersonly",""].indexOf(compositeData.tipo) >= 0 && series.length <=1 || notUse;
 
@@ -1430,7 +1446,6 @@
                         }
                         return compositeData;
                     }
-                }
         </script>
 
         

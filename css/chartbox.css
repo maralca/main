@@ -1,0 +1,19 @@
+#chartbox{
+	border: 1px solid rgba(16, 92, 182, 0.3);
+	background-color: #FFF;
+	margin-right: 0.25rem;
+
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex; 
+}
+#NAVBAR ul,
+#SIDEBAR ul{
+	background-color: #F7F7F7 !important;
+}
+#NAVBAR li:hover,
+#SIDEBAR li:hover{
+	background-color: #E7EFF8;
+}
