@@ -1,0 +1,1439 @@
+        <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
+        <head>      
+            <title>Grafico</title>
+            <meta http-equiv="content-type" content="text/plain" charset="UTF-8" />
+            <meta http-equiv="content-language" content="pt-br" />
+
+        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.2/dojo/dojo.js"></script>
+
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.9.2/dijit/themes/tundra/tundra.css">
+        
+        <script type="text/javascript" src="../util/javascript/xtr-grafico-util.js"></script>
+        <script type="text/javascript" src="../util/javascript/xtr-query.js"></script>        
+        <script type="text/javascript" src="../util/javascript/xtrRequire.js"></script>
+
+        <script type="text/javascript" src="../tab/javascript/xtr-paginacao-script.js"></script>
+        <script type="text/javascript" src="../tab/javascript/xtr-tab.js"></script>
+        <script type="text/javascript" src="../tab/javascript/xtr-sidebar.js"></script>
+        
+        <script type="text/javascript" src="../grafico/javascript/xtr-grafico.js"></script>
+        <script type="text/javascript" src="../grafico/javascript/xtr-grafico-principal.js"></script>
+        <script type="text/javascript" src="../grafico/javascript/xtr-grafico-parametros.js"></script>
+        <script type="text/javascript" src="../grafico/javascript/xtr-grafico-modulos.js"></script>
+        <script type="text/javascript" src="../grafico/javascript/xtr-grafico-estilos.js"></script>
+
+        <script type="text/javascript" src="../inputs/javascript/xtr-table.js"></script>
+        <script type="text/javascript" src="../inputs/javascript/xtr-butao.js"></script>
+        <script type="text/javascript" src="../inputs/javascript/xtr-checkbox.js"></script>
+        <script type="text/javascript" src="../inputs/javascript/xtr-select.js"></script>
+        <script type="text/javascript" src="../inputs/javascript/xtr-table.js"></script>
+        <script type="text/javascript" src="../inputs/javascript/xtr-svg.js"></script>
+        <script type="text/javascript" src="../inputs/javascript/xtr-input.js"></script>
+
+        <script type="text/javascript" src="../tooltip/javascript/xtr-tooltip.js"></script>
+
+        <script type="text/javascript" src="../datahandler/javascript/xtr-datahandler.js"></script>
+
+        <script type="text/javascript" src="source/source.js"></script>
+
+        <link rel="stylesheet" href="../tab/css/xtr-tab.css">
+        <link rel="stylesheet" href="../tab/css/xtr-paginacao-script.css">
+
+        <link rel="stylesheet" href="../inputs/css/xtr-butao.css">
+        <link rel="stylesheet" href="../inputs/css/xtr-checkbox.css">
+        <link rel="stylesheet" href="../inputs/css/xtr-select.css">
+        <link rel="stylesheet" href="../inputs/css/xtr-table.css">
+
+        <link rel="stylesheet" href="../tooltip/css/xtr-tooltip.css">
+
+        <link rel="stylesheet" href="../grafico/css/xtr-grafico.css">
+
+        <link rel="stylesheet" href="css/foundation-icon-fonts/foundation-icons.css">
+        <link rel="stylesheet" href="css/xtr-icon-size.css">
+        <link rel="stylesheet" href="css/xtr-alert.css">
+
+        <link rel="stylesheet" href="css/flexbox.css">
+
+        <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
+        
+    </head>
+
+    <body class="tundra">
+        <input type="text" id="tipo" placeholder="Tipo" value="colunas"/>
+        <input type="text" id="tema" placeholder="Tema" value="popkitblue"/>
+        <input type="number" id="nSeries" placeholder="Series" value="7"/>
+        <input type="number" id="nPontos" placeholder="Pontos/Serie" value="8"/>
+        <input type="text" id="titulosidentificadores" placeholder="Eixo de Identificadores" />
+        <input type="text" id="titulosvalores" placeholder="Eixo de Valores" />
+        <div id="NAVBAR" class="xtrTabMenu left-align">
+            <ul>
+                <li 
+                    class="active" 
+                    data-xtr-tab="_xtr_tab_grafico_principal"
+                    data-xtr-tab-onload="nowYouSeeMe(this)">
+                    <i class="fi-home iconSize25"></i>
+                </li>
+
+                <li 
+                    id="customizeChart"
+                    data-xtr-tab="_xtr_tab_grafico_personalizado"
+                    data-xtr-tab-onload="nowYouSeeMeMore(this,'_xtr_tabela_grafico_personalizado',false)">
+                    <i class="fi-pencil iconSize25"></i>
+                </li> 
+
+                <li 
+                    id="mergeChart"
+                    data-xtr-tab="_xtr_tab_grafico_personalizado2"
+                    data-xtr-tab-onload="nowYouSeeMeMore(this,'_xtr_tabela_grafico_personalizado2',true)">
+                    <i class="fi-plus iconSize25"></i>
+                </li>
+            </ul>
+        </div>
+        <div id="SIDEBAR" class="xtrTabMenu wide150 vertical left divided">
+
+        </div>  
+        <div id="chartbox" class="flexbox">    
+                      
+
+            <div id="loading" class="loading">
+                <img src="http://xtr-tinto.consiste.com.br/xtr/recursos-v3.nsf/xtr-logo2.png" 
+                class="spinner fluid"></img>
+            </div>
+
+            <div id="content" style="width:100%">
+                <div id="_xtr_tab_grafico_principal">
+                    <div id="_xtr_grafico" class="xtrGrafico">
+                    </div>
+                    <div id="_xtr_grafico_legenda" class="xtrLegenda">
+                    </div>
+                </div>
+
+                <div id="_xtr_tab_grafico_personalizado" style="max-width:1080px;margin:auto">
+                    <table 
+                        id="_xtr_tabela_grafico_personalizado"
+                        class="xtrTable"  
+                        style="min-width:100%;">                       
+                    </table>
+                </div>
+
+                <div id="_xtr_tab_grafico_personalizado2" style="max-width:1080px;margin:auto">
+                    <table 
+                        id="_xtr_tabela_grafico_personalizado2"
+                        class="xtrTable"  
+                        style="min-width:100%;">                       
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        
+        <script type="text/javascript"> 
+        ///////////
+        //TRASH  //
+        ///////////
+            rawData.alt.grafico = [
+                {
+                    colunas: [1],
+                    mostrar: true,
+                    tipo: "pizza"
+                },
+            ];      
+        ////////////////////////
+        //VARIAVEIS DE ESCOPO //
+        ////////////////////////
+            var compositeDatas,compositeData;
+            /**
+             * dataHandler, dados contidos nesse objeto não alteram nunca, usado somente para leitura
+             */
+            var dataHandler;
+            /**
+             * compositeDataHandler, dados contidos nesse objeto alteram cosntatemente, usado para leitura/escrita
+             * dados que estão sendo exibidos, ou que estão sendo armazenados(como interface);
+             */
+            var compositeDataHandler;
+
+            var sideBar;
+
+            var xtrAble;
+            var xtrTab;
+            var xtrPaginacaoScript;
+
+        ///////////////
+        //CONSTRUCAO //
+        ///////////////
+        try{
+            //rawData = #{javascript: xtrJson(compositeData); };
+            if(rawData.alt){
+                rawData=rawData.alt;
+            }
+            dataHandler = new DataHandler(rawData);            
+            compositeDatas = dataHandler.load();
+            compositeDatas.sort(function(a,b){
+                return a.series.length < b.series.length;
+            });
+
+            console.log("RAW",rawData);
+
+            console.log("CPD",compositeDatas);
+
+            compositeDataHandler = new CompositeDataHandler(compositeDatas);           
+
+            sideBar = new SideBar("#SIDEBAR");
+
+            xtrTab = new XtrTab("#NAVBAR");
+            xtrAble = new XtrAble();
+
+            console.log(xtrAble);
+
+            chunkSize = 3;
+
+            if(dataHandler.search("tabela",0).rotulos.length > 30){
+                xtrAble.disable("customizeChart",true);
+                xtrAble.disable("mergeChart",true);
+            }
+
+            heritage("chartbox");
+        }
+        catch(e){
+            console.error(e);
+            removeLoading();
+            document.getElementById("content").remove();
+        }
+            
+        ////////////////////////////
+        //METODOS DE CARREGAMENTO //
+        ////////////////////////////
+            function removeLoading(){
+                var loading = document.getElementById("loading");
+                var content = document.getElementById("content");
+                loading.className = "loading hide";
+                content.className = "blur hide";
+            }
+            function addLoading(){
+                var content = document.getElementById("content");          
+                var loading = document.getElementById("loading");
+                content.className = "blur";
+                loading.className = "loading";
+            }
+        //////////////////////////////////
+        //METODOS DE GERAÇÃO DE GRAFICO //
+        //////////////////////////////////
+            function nowYouSeeMe(x){
+                var element = document.querySelector("[data-compositeData-index]");
+                element.click();
+                element.className = element.className.replace("active","");
+                element.className = element.className + " active";
+            }
+            function escalonador(where){
+                var localChart;
+                var enable;
+                var alert;
+                var color;
+
+                localChart = new SuperChart(compositeDataHandler.current());
+
+                enable = !localChart.areOneOfTheseMyChartType(['empilhadas']);
+
+                alert = enable ? "default" : "verde";
+                color = enable ? "rgba(180,180,180,.5)" : "";
+
+                checkboxObj = {
+                    id: "xtrCheckbox_escalonador",
+                    checked: localChart.isThisMyScaleType("justa"),
+                    disabled: enable,
+                    text:{
+                        color: color                       
+                    },
+                    content: "Justaposição(%)",
+                    type: "verde",
+                    "class": "xtrAlert xtrAlert-"+alert,
+                    addEventListener: {
+                        where: "input",
+                        type: "change",
+                        func: function(x,type,objAux){
+                            var labelText;
+                            var label;
+                            var input;
+                            var compositeData;
+
+                            labelText = objAux.labelText;
+                            label = objAux.label;
+                            input = objAux.input;
+                            compositeData = compositeDataHandler.current();
+
+                            if(input.checked)
+                                compositeData.escala = "justa";
+                            else
+                                compositeData.escala = "linear";
+
+                            compositeDataHandler.override(compositeData);
+
+                            changeChart(compositeData);
+
+                            elements = document.getElementById(xtrGrafico.ID_LEGENDA).querySelectorAll(".xtrCheckboxElement[data-legenda]");
+                            var element;
+                            var elementIndex;
+                            for(elementIndex = 0; elements.length > elementIndex; elementIndex++){
+                                element = elements[elementIndex];
+                                element.setAttribute("checked",!element.getAttribute("checked"));
+                                element.firstChild.setAttribute("checked",!element.getAttribute("checked"));
+                            }               
+                        }
+                    }
+                } 
+                div = document.createElement("div");
+                div.className = div.className + " flexbox"
+                xtrCheckbox = XtrCheckbox(checkboxObj).node;
+                var hr = document.createElement("hr");
+                where.appendChild(hr);
+                div.appendChild(xtrCheckbox);
+                where.appendChild(div);
+            }                    
+       
+            //////////////////////////////////////////////
+            //METODOS PARA MANIPULAÇÂO DO COMPOSITEDATA //
+            //////////////////////////////////////////////
+                function generateWithLoading(compositeData){                
+                    compositeDataHandler.override(compositeData);
+                    var objTipo;
+
+                    if(compositeData.tipo.indexOf("geografica") >= 0){
+                        makeGeoChart(compositeData);
+                    }
+                    else{
+                        generate(compositeData,{
+                            beforeStart: addLoading,
+                            onLegend: function(context){  
+                                var elemLege = document .getElementById(context.legenda);                     
+                                escalonador(elemLege);
+                            },
+                            afterEnd: removeLoading
+                        });
+                    }
+                }
+                function makeGeoChart(compositeData){
+                    var SVGREF;
+
+                    var series,serie;
+
+                    var compositeData;
+
+                    var localChart;
+
+                    var subTipo;
+
+                    var script;
+                    var cords;
+
+                    localChart = new SuperChart(compositeData);
+
+                    series = compositeData.series;
+
+                    serie = series[0];
+                    subTipo = compositeData.tipo.split("/");
+                    subTipo = subTipo[1];
+                    subTipo = subTipo.toUpperCase();
+
+                    addLoading();
+
+                    document.getElementById(xtrGrafico.ID_LEGENDA).innerHTML="";
+                    document.getElementById(xtrGrafico.ID_GRAFICO).innerHTML="";
+
+                    var toEval = "XTR_"+subTipo;
+                    console.log(toEval);
+                   // script = document.createElement("script");
+                    //script.setAttribute("type","text/javascript");
+
+                    xtrRequire(toEval,function(){
+
+                        cords = eval(toEval);
+
+                        var param = new SuperParameter(localChart);
+
+                        geoAreaGrafico(compositeData,cords,180,50,180,0.05,20);
+                        geoAreaLegenda(compositeData,180,50,180,5,0.05,20,param.getLegend().style);
+                        stylish(localChart).legendIcons(false,true);
+                        stylish(localChart).labelText();
+                        removeLoading();
+                        //stylish(localChart).legendContainer();
+                    });
+
+                    //script.setAttribute("src","SOURCE\\LIBS\\"+toEval+".js");
+                   // document.getElementsByTagName("head")[0].appendChild(script);
+                }
+                function geoAreaGrafico(compositeData,coordenadas,red,green,blue,percent,scale){
+                    var coordenada;
+                    var coordenadaIndex;
+
+                    var gScale,gTranslate,gCidade;
+                    var pathCidade;
+
+                    var ds,d;
+                    var dIndex;
+
+                    var cidade;
+                    var cidadeNome,cidadeDs,cidadeId,cidadeIndex;
+
+                    var grafico;
+
+                    var rotulos;
+                    var serie;
+                    var valores,valor;
+                    var titulos;
+
+                    var max,min,sum;
+
+                    var color,opacity;
+
+                    var xtrTooltip;
+                    var xtrSVG;
+
+                    rotulos = compositeData.rotulos;
+                    serie = compositeData.series[0];
+                    titulos = compositeData.titulos;
+                    valores = serie.dados;
+
+                    max = XtrGraficoUtil.maximum(valores);
+                    min = XtrGraficoUtil.minimum(valores);
+                    sum = XtrGraficoUtil.somatorium(valores)
+
+                    xtrTooltip = new XtrTooltip("xtrTooltip");
+                    xtrTooltip.setDirection("top")
+
+                    grafico = document.getElementById(xtrGrafico.ID_GRAFICO);                    
+                    grafico.style.setProperty("background","rgba("+parseInt(red*1.5)+","+parseInt(green*1.5)+","+parseInt(blue*1.5)+","+percent+")");
+
+                    geoHighlight("geoChart");
+                    
+                    svgObj = {
+                        "id": "geoChart",
+                        "class": "geoChart",
+                        "width": grafico.offsetWidth,
+                        "height": grafico.offsetHeight,
+                        "viewBox": "0 0 "+grafico.offsetWidth+" "+grafico.offsetHeight,
+                        "preserveAspectRatio": "xMinYMin"                  
+                    };                   
+                    xtrSVG = new XtrSVG(svgObj,xtrGrafico.ID_GRAFICO);
+
+
+                    gScaleObject = {
+                        "id": "geoChartScale"
+                    }
+                    gScale = xtrSVG.append(gScaleObject);     
+
+                    gTranslateObject = {
+                        "id": "geoChartTranslate",
+                        "parent": gScale
+                    }
+                    gTranslate = xtrSVG.append(gTranslateObject);
+                        console.log(coordenadas);
+  
+                    for(regiao in coordenadas){
+                        estados = coordenadas[regiao];
+                        gRegiaoObject = {
+                            "id": regiao,
+                            "parent": gTranslate
+                        }
+                        gRegiao = xtrSVG.append(gRegiaoObject);
+
+                        for(estado in estados){
+
+                            cidades = estados[estado];
+
+                            if(XtrGraficoUtil.isobj(cidades)){
+                                gEstadoObject = {
+                                    "id": estado,
+                                    "parent": gRegiao
+                                }
+                                gEstado = xtrSVG.append(gEstadoObject);
+                            }
+                            else{
+                                for(rotuloIndex = 0; rotulos.length > rotuloIndex; rotuloIndex++){
+                                    rotulo = rotulos[rotuloIndex];
+                                    if(rotulo.indexOf(estado) >= 0){
+                                        break;
+                                    }
+                                }
+                                valor = valores[rotuloIndex]
+                                opacity = valor/max;
+                                color = "rgba("+red+","+green+","+blue+","+opacity+")";
+
+                                pathObject = {
+                                    "id": estado,
+                                    "tag": "path",
+                                    "d": cidades,
+                                    "parent": gRegiao,
+                                    "class": "geoChartHighlight",
+                                    "fill": color
+                                }
+                                pathEstado = xtrSVG.append(pathObject);
+                            }
+                            for(cidadeId in cidades){
+                                cidade = cidades[cidadeId];
+                                cidadeNome = cidade.nome+" / "+estado;
+                                cidadeCaminhos = cidade.coordenadas;                            
+                                cidadeIndex = rotulos.indexOf(cidadeNome);
+                                valor = valores[cidadeIndex];
+                                valor = XtrGraficoUtil.isset(valor) ? valor : 0;
+
+                                gCidadeObject = {
+                                    "id": cidadeId,
+                                    "data-value": valor,
+                                    "data-percent": valor/sum,
+                                    "data-nome": cidadeNome,
+                                    "class": "geoChartHighlight",
+                                    "parent": gEstado
+                                };                     
+                                gCidade = xtrSVG.append(gCidadeObject);
+
+                                tooltipContent = "<p>"+titulos.identificadores+" : "+cidade.nome+"</p>"
+                                +"<p>"+serie.titulo+" : "+valor+"</p>";
+                                xtrTooltip.addTrigger(cidadeId,{
+                                    "content": tooltipContent
+                                });
+
+                                opacity = valor/max;
+                                color = "rgba("+red+","+green+","+blue+","+opacity+")";
+
+                                for(dIndex = 0; cidadeCaminhos.length > dIndex; dIndex++){
+                                    cidadeCaminho = cidadeCaminhos[dIndex];
+                                    pathObject = {
+                                        "tag": "path",
+                                        "d": cidadeCaminho,
+                                        "fill": color,
+                                        "parent": gCidade
+                                    };
+                                    pathCidade = xtrSVG.append(pathObject);
+                                };
+                            };
+                        }
+                        
+                    }
+
+                    bb = gScale.getBBox();
+                    aspectRatio = bb.width / bb.height;
+                    refX =    grafico.offsetWidth * 0.8 * aspectRatio / bb.width;
+                    refY = - grafico.offsetHeight * 0.8 / aspectRatio / bb.height;
+
+                    if(grafico.offsetHeight > grafico.offsetWidth){
+                        refY = -refX
+                    }
+                    else{
+                        refX = -refY;
+                    }
+
+                    gScale.setAttrs({
+                        "transform": "matrix("+refX+" 0 0 "+refY+" 0 0"+")",
+                        //"transform": "scale("+ 0.06 +","+ (-0.06) +")"
+                        "nada":"nada"
+                    });
+                    
+                    factorX = Math.floor(bb.x) * (-1);
+                    factorY = Math.floor(bb.y + bb.height) * (-1);
+
+                    gTranslate.setAttrs({
+                        "transform": "translate("+ factorX +"," + factorY +")"
+                    });
+                    /*
+                    0.055 ----- 3250
+                    0.055 ----- 3150
+
+                    0.050 ----- 2950
+                    0.050 ----- 2800
+
+                    0.045 ----- 2650
+                    0.045 ----- 2500
+
+                    0.040 ----- 2350
+                    0.040 ----- 2200
+                    */ 
+                }
+                function geoAreaLegenda(compositeData,red,green,blue,n,percent,scale,style){
+                    var legenda;
+                    var legendaAttrs,legendaAttr;
+                    var legendaAttrIndex;
+
+                    var svg;                
+                    var defs,rect,text;
+
+                    var series,serie;
+                    var sum;
+                    var max,min;
+
+                    var table,tr,td,div;
+
+                    var fill;
+
+                    var size;
+
+                    var SVGREF = "http://www.w3.org/2000/svg";
+
+                    var percent,eachPercent,percentInicial;
+
+                    series = compositeData.series;
+                    serie = series[0];
+                    sum = XtrGraficoUtil.somatorium(serie.dados);
+                    max = XtrGraficoUtil.maximum(serie.dados);
+                    min = XtrGraficoUtil.minimum(serie.dados);
+
+
+                    eachPercent = 1 / n;
+
+                    size = 15;
+
+                    legenda = document.getElementById(xtrGrafico.ID_LEGENDA);
+                    table = document.createElement("table");
+                    legenda.style.setProperty("background",
+                        "rgba("+parseInt(red*1.5)+","+parseInt(green*1.5)+","+parseInt(blue*1.5)+","+percent+")");
+
+                    legendaAttrs = legenda.attributes;
+                    for(legendaAttrIndex = 0; legendaAttrs.length > legendaAttrIndex; legendaAttrIndex++){
+                        legendaAttr = legendaAttrs[legendaAttrIndex].nodeName;
+                        table.setAttribute(legendaAttr,legenda.getAttribute(legendaAttr));
+                    };
+                    if(XtrGraficoUtil.isset(style)){
+                        for(styProp in style){
+                            styVal = style[styProp];
+                            table.style.setProperty(styProp,styVal);
+                        }
+                    }
+                    table.style.setProperty("width","100%");
+
+                    legenda.parentNode.appendChild(table);
+                    legenda.remove();
+                    i = 1;
+
+                    sum = sum.toString();
+
+                    var sumRoundSize = 4;
+
+                    var fs = sum.substr(0,sum.length-sumRoundSize);
+                    fs = parseFloat(fs);
+                    sum = fs * Math.pow(10,sumRoundSize);
+
+                    max2min = max - min;
+                    max2minEach = max2min/n;
+                    percentInicial = 0.0125;
+                    percent = percentInicial;
+
+                    while(percent <= 1){
+                        first = percent == percentInicial;
+                        last = percent+eachPercent > 1;
+
+                        tr = document.createElement("tr");                   
+
+                        td = document.createElement("td");                    
+                        tr.style.setProperty("font-color",
+                            "rgb("+parseInt(red/2.5)+","+parseInt(green/2.5)+","+parseInt(blue/2.5)+")");
+
+                        div = document.createElement("div");
+                        div.style.setProperty("width",(size+3)+"px");
+                        div.style.setProperty("height",(size+3)+"px");
+                        div.style.setProperty("float","left");
+                        div.className = "dojoxLegendIcon dijitInline";
+
+                        label = document.createElement("label");
+                        label.className = "dojoxLegendText";
+
+                        something = first ? "<span> < </span>" : last ? "<span> > </span>" : "";
+
+                        label.innerHTML = something+XtrGraficoUtil.convertKMB(max*percent,1,true);
+
+                        svg = document.createElementNS(SVGREF,"svg");
+                        svg.setAttributeNS(null,"width",(size+3));
+                        svg.setAttributeNS(null,"height",(size+3));
+                        svg.setAttributeNS(null,"overflow","hidden");
+
+                        defs = document.createElementNS(SVGREF,"defs");
+                        
+                        fill = "rgba("+red+","+green+","+blue+","+percent+")";
+
+                        rect = document.createElementNS(SVGREF,"rect");
+                        rect.setAttributeNS(null,"fill",fill);
+                        rect.setAttributeNS(null,"width",(size+1));
+                        rect.setAttributeNS(null,"height",(size+1));
+                        rect.setAttributeNS(null,"x",2);
+                        rect.setAttributeNS(null,"y",2);
+
+                        svg.appendChild(defs);
+                        svg.appendChild(rect);
+                        div.appendChild(svg);
+                        td.appendChild(div); 
+                        td.appendChild(label);                  
+                        tr.appendChild(td);
+                        table.appendChild(tr);
+
+                        percent += eachPercent;
+                    }
+                }
+                function geoHighlight(id){
+                    var seletor;
+                    var style;
+
+                    seletor = "g.geoChartHighlight:hover path,path.geoChartHighlight:hover";
+
+                    style = document.createElement("style");
+                    style.setAttribute("id",id+"_style");
+                    style.innerHTML = seletor+"{"
+                        +"fill: "+xtrGrafico.Default.hover.stroke+";"      
+                        +"stroke: "+xtrGrafico.Default.hover.fill+";"   
+                    +"}";
+
+                    document.body.appendChild(style);
+                }
+        ////////////////////////
+        //METODOS PARA TABELA //
+        ////////////////////////
+            ////////////////////////////////
+            //METODO DE CRIACAO DE TABELA //
+            ////////////////////////////////
+                function nowYouSeeMeMore(context,tableId,mesclar){
+                    var compositeData;
+
+                    compositeData = dataHandler.search("tabela",0);
+
+                    if(compositeData.rotulos.length > 30){
+                        alert("Não é possivel personalizar grafico com dados por Município");
+                        return;
+                    }
+
+                    document.getElementById(tableId).innerHTML="";
+
+                    addLoading();
+
+                    makeTable(tableId,mesclar);
+
+                    if(!XtrGraficoUtil.isobj(xtrPaginacaoScript)){
+                        xtrPaginacaoScript = {};
+                    } 
+
+                    xtrPaginacaoScript[tableId] = new XtrPaginacaoScript({
+                        containerSelector: "#"+tableId,
+                        elementAttribute: "data-colunaIndex",
+                        chunkSize: chunkSize,
+                        chunckNumber: 0,
+                        paginator:["#"+tableId+"paginasBottom","#"+tableId+"paginasTop"]
+                    });   
+                    
+                    removeLoading();
+                }
+                function makeTable(tableId,z){
+                    var table = new XtrTable(tableId);
+                    var div,content;
+                    var linhaObj,colunaObj,butaoObj,selectObj;
+                    var compositeData = dataHandler.search("tabela",0);
+
+                    var series = compositeData.series;
+                    var rotulos = compositeData.rotulos;
+
+                    var periodico = comRo(rotulos.length-1,true);
+
+                    function comRo(x,y){
+                        if(x==0)
+                            return true;                  
+                        var com = typeof parseInt(rotulos[x]) == typeof 1;
+                        x--;
+                        com = comRo(x,com);
+                        return com && y
+                    }
+
+                    var size = 100/(chunkSize+1);
+
+                    div = document.createElement("div");
+                    div.className = "xtrPaginacaoScript";
+                    div.id = tableId+"paginasTop";
+
+                    linhaObj = {
+                        index:0,
+                        head:true
+                    };
+                    colunaObj = {
+                        index:0,
+                        colspan:chunkSize+1,
+                        type:"th",
+                        "class": "almostZeroPadding"
+                    };
+                    table.appendIn(linhaObj,colunaObj,div);
+
+                    linhaObj.index++;
+                    //START-TABLEBODY
+                        var input = "Serie / Ponto";
+                        if(periodico){
+                            input = document.createElement("input");
+                            input.type = "number";
+                            input.className = "xtrSelect";
+                            input.min = 1;
+                            input.max = rotulos.length-1 > 5 ? 5 : rotulos.length-1;
+                            input.placeholder = "Pontos de Interpolação";
+                            input.id = tableId+"_pontosInterpolacao"
+                            if(xtrAble.isEnable(input.id)){
+                                xtrAble.disable(input.id);
+                                input.value = input.min;
+                            }
+                        }
+
+                        table.appendIn(linhaObj,{index:0,type:"th"},input);
+                        for(var colunaIndex=0; rotulos.length > colunaIndex; colunaIndex++){
+                            var rotulo = rotulos[colunaIndex];  
+
+                            linhaObj = {
+                                index:1,
+                                head:true
+                            };
+                            colunaObj = {
+                                index:colunaIndex+1,
+                                type:"th",
+                                style:{
+                                    width: size+"%"                            
+                                },
+                                "data-colunaIndex": colunaIndex,
+                                "data-linhaIndex": 0,
+                                "data-colunaAtiva": true,
+                                "data-linhaAtiva": true
+                            };
+                            butaoObj = {
+                                content: rotulo,
+                                type: "default fluid",
+                                "data-clicado":false,
+                                "data-target-colunaIndex":colunaIndex,
+                                addEventListener:{
+                                    event:"click",
+                                    func: function(context,classDefault){ selectorAction(table,'coluna',context,classDefault); }
+                                }
+                            }
+
+                            var div = document.createElement("div");
+                            div.className = "";
+                            var selectorButton = XtrButao(butaoObj).node;
+                            
+                            if(periodico){
+                                if(colunaIndex == 0){
+                                    var extrapolationButton = XtrButao({
+                                        content: "e",
+                                        "data-ponto-extrapolacao": colunaIndex,                               
+                                        "data-clicado":false,
+                                        type: "vermelho",
+                                        addEventListener:{
+                                            type: "click",
+                                            func: function(context){ 
+                                                extrapolateAction(tableId,context,compositeData); 
+                                            }
+                                        }
+                                    }).node;
+
+                                    div.appendChild(extrapolationButton);                       
+                                    div.className="xtrGrupoButoes";
+                                }                 
+                                div.appendChild(selectorButton); 
+                                if(colunaIndex+1 < rotulos.length){
+                                    var interpolationButton = XtrButao({
+                                        content: "i",
+                                        "data-ponto-interpolacao": colunaIndex+1,
+                                        "data-clicado":false,
+                                        type: "azul",
+                                        addEventListener:{
+                                            type: "click",
+                                            func: function(context){ 
+                                                interpolateAction(tableId,context,compositeData); 
+                                            }
+                                        }
+                                    }).node;
+                                    div.appendChild(interpolationButton);
+                                    div.className="xtrGrupoButoes";
+                                }
+                            }
+                            else{
+                                div.appendChild(selectorButton);
+                            }
+
+                            table.appendIn(linhaObj,colunaObj,div);
+                        }
+                        for(var linhaIndex=0; series.length > linhaIndex; linhaIndex++){
+                            var serie = series[linhaIndex];
+                            var valores = serie.dadosFormatados;
+                            var nome = serie.titulo;
+
+                            linhaObj = {
+                                index:linhaIndex+2,
+                                body:true
+                            };
+                            colunaObj = {
+                                index:0,
+                                type:"th",
+                                style:{
+                                    width: size+"%"                            
+                                }
+                            };
+                            butaoObj = {
+                                content: nome,
+                                type: "default fluid",
+                                "data-clicado":false,
+                                "data-target-linhaIndex":linhaIndex,
+                                addEventListener:{
+                                    event:"click",
+                                    func: function(x,d){selectorAction(table,'linha',x,d);}
+                                }
+                            }
+
+                            table.appendIn(linhaObj,colunaObj,XtrButao(butaoObj).node);
+
+                            for(var colunaIndex=0; valores.length > colunaIndex; colunaIndex++){
+                                var valor = valores[colunaIndex]; 
+
+                                colunaObj = {
+                                    index:colunaIndex+1,
+                                    type:"td",
+                                    style:{
+                                        width: size+"%"                                
+                                    },
+                                    "data-colunaIndex": colunaIndex,
+                                    "data-linhaIndex": linhaIndex,
+                                    "data-colunaAtiva": true,
+                                    "data-linhaAtiva": true
+                                };
+                                if(colunaIndex % chunkSize == 0)
+                                    colunaObj["class"] = "forceTh notBottom notTop";
+                                table.appendIn(linhaObj,colunaObj,valor);
+                            }                 
+                        }
+                    //END-TABLEBODY
+                    //START-TABLEBODYRESTANTE
+                        var colunasRestantes = chunkSize - colunaIndex % chunkSize;
+                        colunasRestantes = colunasRestantes % chunkSize;
+                        var linhaTotal = linhaIndex;
+                        if(colunasRestantes>0){
+                            var linhaIndex = 0;
+                            while(linhaIndex <= linhaTotal){
+                                innerColunasRestantes = colunasRestantes;
+                                while(innerColunasRestantes > 0){                                
+                                    var offset = colunasRestantes-innerColunasRestantes           
+                                    colunaObj = {
+                                        index:colunaIndex,
+                                        type:"th",
+                                        "data-colunaIndex": colunaIndex+offset,
+                                        "data-linhaIndex": linhaIndex,
+                                        "class": "notTop notBottom",
+                                        style:{
+                                            width: size+"%"                                
+                                        }
+                                    };  
+                                    if(!(innerColunasRestantes == colunasRestantes)){
+                                        colunaObj['class']+=" notLeft";
+                                    }                       
+
+                                    table.appendIn(linhaIndex+1,colunaObj);
+                                    innerColunasRestantes--;
+                                }
+                                linhaIndex++;
+                            }
+                        } 
+                    //END-TABLEBODYRESTANTE
+
+                    var dojo = SuperModule(Object).getDojo();
+                    var tipos = dojo.tipos;
+                    var ctipo = 0;
+                    tipos = tipos.filter(function(item){
+                        if(item.ativo)
+                            return true;
+                    });
+                    tipos.sort(function(a,b){ return a.traducao.portuguesBr > b.traducao.portuguesBr; });
+                    tipos.sort(function(a,b){ 
+                        var vtipo = b.variacao.indexOf(compositeData.tipo) >= 0;
+                        if(vtipo)
+                            ctipo++;
+                        return vtipo; 
+                    });
+                    var tipoSel = ctema==0 ? xtrGrafico.Default.tipo : compositeData.tipo;                  
+
+                    var ref = chunkSize+1;                
+                    var partes = 3;
+                    var dist = ref/partes;                 
+                    var msg = "Mesclar grafico"
+                        linhaObj = {
+                            index:linhaIndex+3,
+                            foot:true
+                        };
+                    if(!z){
+                        msg = "Gerar grafico";
+                        partes = 4;
+                        dist = ref/partes; 
+
+                        var temas = dojo.temas;
+                        var ctema = 0;
+                        
+                        temas.sort(function(a,b){ return a.alias > b.alias; });
+                        temas.sort(function(a,b){
+                            var vtema = b.variavel == compositeData.tema;
+                            if(vtema)
+                                ctema++;
+                            return vtema; 
+                        });
+                        var temaSel = ctipo==0 ? xtrGrafico.Default.tema : compositeData.tema;                       
+
+                        colunaObj = {
+                            index:0,
+                            colspan: Math.floor(dist),
+                            type:"th"
+                        };
+                        selectObj = {
+                            optionContent:temas,
+                            optionPropContent:"alias",
+                            optionPropValue:"variavel",
+                            id: tableId+"_selectTema"
+                        };
+
+                        table.appendIn(linhaObj,colunaObj,XtrSelect(selectObj));               
+                    }
+                    else{
+                        var currentTipo = compositeDataHandler.current().tipo;
+                        var tipo = SuperModule().getDojoObject(currentTipo,"tipos"); 
+                        var mesclagens = SuperModule().getDojo("mesclagem");
+                        tipos = tipos.filter(function(value){
+                            var show,innerShow;
+                            var mesclagem;
+                            var mesclagemIndex;
+
+                            var categorias,categoria;
+                            var categoriaIndex;
+
+                            categorias = tipo.categoria;   
+
+                            show = false;
+                            for(categoriaIndex = 0; categorias.length > categoriaIndex; categoriaIndex++){
+                                categoria = categorias[categoriaIndex]; 
+                                for(mesclagemIndex = 0; mesclagens.length > mesclagemIndex; mesclagemIndex++){
+                                    mesclagem = mesclagens[mesclagemIndex];
+                                    innerShow = false;
+                                    if(mesclagem.de.indexOf(categoria) >= 0){
+                                        innerShow = innerShow || mesclagem.para.indexOf(value.variavel) >= 0;
+                                        innerShow = innerShow || mesclagem.para.indexOf("all") >= 0;
+                                        if(mesclagem.exceto.indexOf(value.variavel) >= 0
+                                            || mesclagem.exceto.indexOf("all") >= 0){
+                                            innerShow = !innerShow;
+                                        }
+                                    }
+                                    show = innerShow || show;
+                                };                                
+                            };
+                            return show;
+                        });
+                    }
+
+
+                    colunaObj = {
+                        index:1,
+                        colspan:Math.floor(dist),
+                        type:"th"
+                    };
+                    selectObj = {
+                        optionContent:tipos,
+                        optionPropContent:"traducao.portuguesBr",
+                        optionPropValue:"variavel",
+                        id: tableId+"_selectTipo"
+                    };
+                    table.appendIn(linhaObj,colunaObj,XtrSelect(selectObj));
+
+                    colunaObj = {
+                        index:2,
+                        colspan:Math.round(dist),
+                        type:"th"
+                    };
+                    butaoObj = {
+                        content: msg+" a partir dos selecionados",
+                        type: "inverse fluid",
+                        addEventListener:{
+                            event:"click",
+                            func: function(){ 
+                                generateAction(table,false,msg+", ao menos uma serie não deve estar selecionada",z);
+                            }
+                        }
+                    }
+
+                    table.appendIn(linhaObj,colunaObj,XtrButao(butaoObj).node);                
+                    colunaObj = {
+                        index:3,
+                        colspan:Math.round(dist),
+                        type:"th"
+                    };
+
+                    butaoObj = {
+                        content: msg+" a partir dos não selecionados",
+                        type: "default fluid",
+                        addEventListener:{
+                            event:"click",
+                            func: function(){ 
+                                generateAction(table,true,msg+", ao menos uma serie deve estar selecionada",z);
+                            }
+                        }
+                    }
+                    table.appendIn(linhaObj,colunaObj,XtrButao(butaoObj).node);
+
+                    div = document.createElement("div");
+                    div.className = "xtrPaginacaoScript";
+                    div.id = tableId+"paginasBottom";     
+                    linhaObj.index++;
+                    
+                    colunaObj = {
+                        index:0,
+                        colspan:ref,
+                        type:"th"
+                    };
+                    colunaObj["class"]="almostZeroPadding";
+
+                    table.appendIn(linhaObj,colunaObj,div);
+
+                    linhaObj.index++;
+                    
+                    colunaObj = {
+                        index:0,
+                        colspan:ref,
+                        type:"td",
+                        style:{
+                            "fontSize": "16px"
+                        },
+                        "class":"forceTh almostZeroPadding"
+                    };
+
+                    div = document.createElement("div");
+                    div.className = "flexbox";
+                    checkboxObj = {
+                        id: tableId+"xtrCheckbox_azul",
+                        type: "azul",
+                        "class": "xtrAlert xtrAlert150px xtrAlert-azul",
+                        content: "Interpolado",
+                        checked: true,
+                        disabled: true
+                    }
+                    div.appendChild(XtrCheckbox(checkboxObj).node);
+                    checkboxObj = {
+                        id: tableId+"xtrCheckbox_vermelho",
+                        type: "vermelho",
+                        "class": "xtrAlert xtrAlert150px xtrAlert-vermelho",
+                        content: "Extrapolado",
+                        checked: true,
+                        disabled: true
+                    }
+                    div.appendChild(XtrCheckbox(checkboxObj).node);
+                    checkboxObj = {
+                        id: tableId+"xtrCheckbox_amarelo",
+                        type: "amarelo",
+                        "class": "xtrAlert xtrAlert150px xtrAlert-amarelo",
+                        content: "Inconsistência",
+                        checked: true,
+                        disabled: true
+                    }
+                    div.appendChild(XtrCheckbox(checkboxObj).node);
+
+                    table.appendIn(linhaObj,colunaObj,div); 
+                    evalPolados(compositeData);
+                    evalIncosistenias(compositeData);
+                }            
+            ///////////////////////////////////
+            //METODOS DE AVALIAÇÃO NA TABELA //
+            ///////////////////////////////////
+                function evalIncosistenias(compositeData){
+
+                    var incosistencias = compositeData.incosistencias;
+                    if(incosistencias){
+                        for(var incoIndex = 0; incosistencias.length > incoIndex; incoIndex++){
+                            var incosistencia = incosistencias[incoIndex];
+                            var serieIndex = incosistencia.serieIndex;
+                            var rotulo = incosistencia.rotulo;
+                            var dadoIndex = getColumnIndexByRotulo(rotulo);
+                            if(dadoIndex){
+                                var seletor = "td";
+                                seletor += '[data-linhaIndex="'+serieIndex+'"]';
+                                seletor += '[data-colunaIndex="'+dadoIndex+'"]';
+                                var td = document.querySelector(seletor);
+                                if(td){
+                                    td.className = "xtrAlert-amarelo noBorder"
+                                }
+                            }
+                        }
+                    }
+                }
+                function evalPolados(compositeData){
+                    var polados = compositeData.polados;
+                    if(polados){
+                        for (var poladoIndex = 0; poladoIndex < polados.length; poladoIndex++) {
+                            var polado = polados[poladoIndex].indexName;
+                            var dadoIndex = getColumnIndexByRotulo(polado);
+                            var seletor = 'td[data-colunaIndex="'+dadoIndex+'"]';
+                            var tds = document.querySelectorAll(seletor);
+                            for(var tdIndex = 0; tds.length > tdIndex; tdIndex++){
+                                var td = tds[tdIndex];
+                                var tipo =  polados[poladoIndex].type;
+                                if(tipo == "interpolacao")
+                                    td.className = "xtrAlert-azul noBorder";
+                                else
+                                    td.className = "xtrAlert-vermelho noBorder";
+                            }
+                        };
+                    }
+                }
+                function getColumnIndexByRotulo(rotulo){
+                    var divs = document.querySelectorAll("thead div");
+                    var found = false;
+                    var dadoIndex = false;
+                    for (var divIndex = 0; divIndex < divs.length && !found; divIndex++) {
+                        var div = divs[divIndex];
+                        if(div.textContent == rotulo){
+                            dadoIndex = div.parentNode.parentNode.getAttribute("data-colunaIndex");
+                            found = true;
+                        }
+                    };
+                    return dadoIndex;
+                }   
+            ///////////////////////////////////////////////
+            //METODOS DE MANIPULAÇÃO DE EVENTO NA TABELA //
+            ///////////////////////////////////////////////
+                function interpolateAction(tableId,context,compositeData){
+
+                    xtrAble.disable('pontosInterpolacao');
+
+                    var alvo = context.getAttribute("data-ponto-interpolacao");
+                    var pontos = document.getElementById(tableId+"_pontosInterpolacao").value;
+                    var rotulos = compositeData.rotulos;                
+
+                    for (var serieIndex = 0; serieIndex < compositeData.series.length; serieIndex++){
+                        
+                        var newPoint = XtrNumerico.interpolate(compositeData,serieIndex,alvo,pontos);                    
+                        var valores = compositeData.series[serieIndex].dados;
+                        if(alvo-1 >= 0){
+                            var inconsistencia = valores[alvo-1];
+                        }
+                        else{
+                            var inconsistencia = valores[alvo+1];
+                        }                  
+
+                        var auxRotulo1 = rotulos[alvo];
+                        var auxRotulo2 = rotulos[alvo-1];
+                        
+                        var hasIncoSerie = hasInObj(compositeData.incosistencias,'serieIndex',serieIndex);
+                        var hasIncoRotulo1 = hasInObj(compositeData.incosistencias,'rotulo',auxRotulo1);
+                        var hasIncoRotulo2 = hasInObj(compositeData.incosistencias,'rotulo',auxRotulo2);
+
+                        var incoAcumulada = hasIncoSerie && (hasIncoRotulo1 || hasIncoRotulo2);
+
+                        if(newPoint.y < 0 || incoAcumulada){
+                            newPoint.y = inconsistencia;
+                            compositeData.incosistencias.push({
+                                serieIndex: serieIndex,
+                                rotulo: newPoint.x,
+                            });
+                        }
+                        compositeData.series[serieIndex].dados.splice(alvo,0,Math.round(newPoint.y));
+                        compositeData.polados.push({type: 'interpolacao', indexName: newPoint.x});
+                    };
+                    if(newPoint)
+                        compositeData.rotulos.splice(alvo,0,newPoint.x); 
+
+                    nowYouSeeMeMore(context,tableId);
+
+                    
+                    function hasInObj(array,prop,needle){
+                        for (var index = 0; index < array.length; index++) {
+                            var obj = array[index];
+                            if(obj[prop] == needle)
+                                return true;
+                        }
+                        return false;
+                    }
+                }
+                function extrapolateAction(tableId,context,compositeData){
+
+                    xtrAble.disable('pontosInterpolacao');
+
+                    var alvo = context.getAttribute("data-ponto-extrapolacao");
+                    var pontos = document.getElementById(tableId+"_pontosInterpolacao").value;
+                    var rotulos = compositeData.rotulos;
+
+                    for (var serieIndex = 0; serieIndex < compositeData.series.length; serieIndex++){
+                        var newPoint = XtrNumerico.extrapolate(compositeData,serieIndex,alvo,pontos);                    
+                        var valores = compositeData.series[serieIndex].dados; 
+
+                        var inconsistencia = valores[alvo];
+
+                        var auxRotulo = rotulos[alvo];
+                        function hasInObj(array,prop,needle){
+                            for (var index = 0; index < array.length; index++) {
+                                var obj = array[index];
+                                if(obj[prop] == needle)
+                                    return true;
+                            }
+                            return false;
+                        }
+                        var hasIncoSerie = hasInObj(compositeData.incosistencias,'serieIndex',serieIndex);
+                        var hasIncoRotulo = hasInObj(compositeData.incosistencias,'rotulo',auxRotulo);
+
+                        var incoAcumulada = hasIncoSerie && hasIncoRotulo;
+                        if(newPoint.y < 0 || incoAcumulada){
+                            newPoint.y = inconsistencia;
+                            compositeData.incosistencias.push({
+                                serieIndex: serieIndex,
+                                rotulo: newPoint.x,
+                            });
+                        }
+                        compositeData.series[serieIndex].dados.splice(alvo,0,Math.round(newPoint.y));
+                        compositeData.polados.push({type: 'extrapolacao', indexName: newPoint.x});
+                    };
+                    if(newPoint)
+                        compositeData.rotulos.splice(alvo,0,newPoint.x); 
+
+                    nowYouSeeMeMore(context,tableId);
+                }
+                function selectorAction(xtrTable,acao,context,classDefault){
+                    var clicado = context.getAttr("data-clicado",true);
+
+                    context.changeAttr("data-clicado",!clicado);
+                    context.changeAttrWhen("class",{
+                        "verdadeiro": "xtrButao xtrButao-inverse fluid",
+                        "falso": "xtrButao "+classDefault
+                    },!clicado);
+
+                    var targetIndex = context.getAttr('data-target-'+acao+'Index',true);
+
+                    var cor = !clicado ? "rgba(34, 36, 38, 0.20)" : "";
+
+                    objStyle = {};
+                    objStyle['data-'+acao+'Ativa'] = clicado;
+                    objStyle.style = {background: cor,color: cor};
+
+                    xtrTable.changeAttr('td[data-'+acao+'Index="'+targetIndex+'"]',
+                        objStyle,
+                        function(td,name,value){
+                            if(name=="style"){
+                                var colunaAtiva = td.getAttribute("data-colunaAtiva");
+                                colunaAtiva = eval(colunaAtiva);
+                                var linhaAtiva = td.getAttribute("data-linhaAtiva");
+                                linhaAtiva = eval(linhaAtiva);
+                                var auxColunaAtiva = acao == "coluna" ? !colunaAtiva : colunaAtiva;
+                                var auxLinhaAtiva = acao == "linha" ? !linhaAtiva : linhaAtiva;
+                                if(auxColunaAtiva || auxLinhaAtiva){
+                                    return true;
+                                }
+                                return false;
+                            }
+                            return true;
+                        }
+                    );
+                }
+                function generateAction(xtrTable,isActive,mensage,mesclar){
+                    var tds;
+                   
+                    var compilado = makeSelectedCompositeData(xtrTable,isActive,mesclar);
+                    if(!compilado){
+                        console.warn(mensage);
+                        alert(mensage);
+                        return;
+                    }
+
+                    sideBar.desactiveAll();
+
+                    if(mesclar){
+                        compositeDataHandler.save(compilado);
+                        xtrTab.changeActiveAndCall('_xtr_tab_grafico_principal', function(){
+                            mergeChartData(compositeDataHandler.load());                            
+                        });
+
+                    }
+                    else{
+                        compositeDataHandler.override(compilado)
+                        xtrTab.changeActiveAndCall('_xtr_tab_grafico_principal', function(){                      
+                            generateWithLoading(compositeDataHandler.current());
+                        });
+                    }
+                    
+                    function makeSelectedCompositeData(XtrTable,isActive,mesclar){
+
+                        var colunas,coluna;
+                        var colunaIndex;
+
+                        var linhas,linha;
+                        var linhaIndex;
+
+                        var removeColumnIndexes,removeColumnIndex;
+                        var removeLineIndexes,removeLineIndex;
+
+                        var indexSeeker;
+
+                        var series,serie;
+                        var rotulos,rotulo;
+
+                        var selectTema,selectTipo;
+
+                        compositeData = dataHandler.search("tabela",0);
+                        compositeData = XtrGraficoUtil.clone(compositeData);
+                        series = compositeData.series;
+                        rotulos = compositeData.rotulos;
+
+                        removeColumnIndexes = [];
+                        removeLineIndexes = [];
+
+                        isActive = !isActive;
+
+                        console.log("selecionando Linhas e colunas",isActive);
+                        colunas = xtrTable.getElements('tbody tr:first-child [data-colunaAtiva="'+isActive+'"]');
+                        colunasRef = xtrTable.getElements('tbody tr:first-child [data-colunaAtiva]');
+                        var alguma = colunasRef.length != colunas.length;
+                        for(colunaIndex = 0; colunas.length > colunaIndex && alguma; colunaIndex++){
+                            coluna = colunas[colunaIndex];
+                            removeColumnIndex = coluna.getAttribute("data-colunaIndex");
+                            removeColumnIndexes.push(removeColumnIndex);
+                        };
+
+                        linhas = xtrTable.getElements('tbody tr td:first-of-type[data-linhaAtiva="'+isActive+'"]');
+                        for(linhaIndex = 0; linhas.length > linhaIndex; linhaIndex++){
+                            linha = linhas[linhaIndex];
+                            removeLineIndex = linha.getAttribute("data-linhaIndex");
+                            removeLineIndexes.push(removeLineIndex);
+                        };
+
+                        console.log("selecao removeu",removeLineIndexes.length,"SERIES");
+                        for(indexSeeker = 0; removeLineIndexes.length > indexSeeker; indexSeeker++){
+                            removeLineIndex = removeLineIndexes[indexSeeker];
+                            removeLineIndex = removeLineIndex - indexSeeker;
+                            serie = series.splice(removeLineIndex,1)[0];
+                            console.log("=>","(",indexSeeker+1,")",serie.titulo);
+                        };
+                        console.log("selecao removeu",removeColumnIndexes.length,"PONTOS");
+                        for(indexSeeker = 0; removeColumnIndexes.length > indexSeeker; indexSeeker++){
+                            removeColumnIndex = removeColumnIndexes[indexSeeker];
+                            removeColumnIndex = removeColumnIndex - indexSeeker;
+                            
+                            for(serieIndex = 0; series.length > serieIndex; serieIndex++){
+                                serie = series[serieIndex];
+                                dados = serie.dados;
+                                formatados = serie.dadosFormatados;
+
+                                dados.splice(removeLineIndex,1); 
+                                formatados.splice(removeLineIndex,1); 
+                            };
+                            rotulo = rotulos.splice(removeLineIndex,1);
+                            console.log("=>","(",indexSeeker+1,")",rotulo);
+                        };
+
+                        if(!mesclar){
+                            selectTema = document.getElementById(xtrTable.getId()+"_selectTema");
+                            compositeData.tema = selectTema.value;
+                        }
+
+                        selectTipo = document.getElementById(xtrTable.getId()+"_selectTipo");
+
+                        compositeData.tipo = selectTipo.value;
+                        console.log(compositeData.tipo);
+                        var notUse = rotulos.length < 1 || series.length < 1;
+                        notUse = ["markersonly",""].indexOf(compositeData.tipo) >= 0 && series.length <=1 || notUse;
+
+                        if(notUse){
+                            return;
+                        }
+                        return compositeData;
+                    }
+                }
+        </script>
+
+        
+          
+    </body>
+    </html>

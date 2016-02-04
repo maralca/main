@@ -1,0 +1,11 @@
+
+.loop(@counter) when (@counter >= 5) {
+	.loop((@counter - 5));
+	.iconSizeGen(@counter);
+}
+.iconSizeGen(@x){
+	.iconSize@{x}:before{
+		font-size: (@x + 0px)!important; 
+	}
+}
+.loop(50);
