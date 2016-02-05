@@ -428,68 +428,8 @@
                     compositeData = dataHandler.search("tabela",0);
 
                     tableMaker = TableMaker(tableId,compositeData,chunkSize,mesclando);
-                    tableMaker.make();
-
-
-                    evalPolados(compositeData);
-                    evalIncosistenias(compositeData);
-                }            
-            ///////////////////////////////////
-            //METODOS DE AVALIAÇÃO NA TABELA //
-            ///////////////////////////////////
-                function evalIncosistenias(compositeData){
-
-                    var incosistencias = compositeData.incosistencias;
-                    if(incosistencias){
-                        for(var incoIndex = 0; incosistencias.length > incoIndex; incoIndex++){
-                            var incosistencia = incosistencias[incoIndex];
-                            var serieIndex = incosistencia.serieIndex;
-                            var rotulo = incosistencia.rotulo;
-                            var dadoIndex = getColumnIndexByRotulo(rotulo);
-                            if(dadoIndex){
-                                var seletor = "td";
-                                seletor += '[data-linhaIndex="'+serieIndex+'"]';
-                                seletor += '[data-colunaIndex="'+dadoIndex+'"]';
-                                var td = document.querySelector(seletor);
-                                if(td){
-                                    td.className = "xtrAlert-amarelo noBorder"
-                                }
-                            }
-                        }
-                    }
-                }
-                function evalPolados(compositeData){
-                    var polados = compositeData.polados;
-                    if(polados){
-                        for (var poladoIndex = 0; poladoIndex < polados.length; poladoIndex++) {
-                            var polado = polados[poladoIndex].indexName;
-                            var dadoIndex = getColumnIndexByRotulo(polado);
-                            var seletor = 'td[data-colunaIndex="'+dadoIndex+'"]';
-                            var tds = document.querySelectorAll(seletor);
-                            for(var tdIndex = 0; tds.length > tdIndex; tdIndex++){
-                                var td = tds[tdIndex];
-                                var tipo =  polados[poladoIndex].type;
-                                if(tipo == "interpolacao")
-                                    td.className = "xtrAlert-azul noBorder";
-                                else
-                                    td.className = "xtrAlert-vermelho noBorder";
-                            }
-                        };
-                    }
-                }
-                function getColumnIndexByRotulo(rotulo){
-                    var divs = document.querySelectorAll("thead div");
-                    var found = false;
-                    var dadoIndex = false;
-                    for (var divIndex = 0; divIndex < divs.length && !found; divIndex++) {
-                        var div = divs[divIndex];
-                        if(div.textContent == rotulo){
-                            dadoIndex = div.parentNode.parentNode.getAttribute("data-colunaIndex");
-                            found = true;
-                        }
-                    };
-                    return dadoIndex;
-                }     
+                    tableMaker.make(true);
+                }                   
         </script>
     </body>
     </html>
