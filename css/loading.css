@@ -16,8 +16,8 @@
   opacity: 1;
 }
 .loading.hide{
-  top: 0;
-  left: 0;
+  top: -10000;
+  left: -10000;
   width: 0;
   height: 0;  
 
