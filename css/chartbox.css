@@ -9,7 +9,8 @@
 	display: -webkit-flex;
 	display: flex; 
 
-	overflow: hidden;
+	-webkit-flex-direction: column;
+	flex-direction: column;
 }
 #NAVBAR ul,
 #SIDEBAR ul{
@@ -18,4 +19,18 @@
 #NAVBAR li:hover,
 #SIDEBAR li:hover{
 	background-color: #E7EFF8;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: ".";    
+  display: block;    
+  height: 0;    
+  overflow: hidden;	
+}
+.clearfix:after {
+	clear: both;
+}
+.clearfix {
+	zoom: 1;
 }

@@ -26,7 +26,6 @@
         <script type="text/javascript" src="../inputs/javascript/xtr-butao.js"></script>
         <script type="text/javascript" src="../inputs/javascript/xtr-checkbox.js"></script>
         <script type="text/javascript" src="../inputs/javascript/xtr-select.js"></script>
-        <script type="text/javascript" src="../inputs/javascript/xtr-table.js"></script>
         <script type="text/javascript" src="../inputs/javascript/xtr-svg.js"></script>
         <script type="text/javascript" src="../inputs/javascript/xtr-input.js"></script>
 
@@ -39,8 +38,10 @@
 
         <script type="text/javascript" src="source/source.js"></script>
 
+        <script type="text/javascript" src="source/icones.js"></script>
+        <script type="text/javascript" src="loading.js"></script>
+
         <link rel="stylesheet" href="../tab/css/xtr-tab.css">
-        <link rel="stylesheet" href="../tab/css/xtr-paginacao-script.css">
 
         <link rel="stylesheet" href="../inputs/css/xtr-butao.css">
         <link rel="stylesheet" href="../inputs/css/xtr-checkbox.css">
@@ -54,12 +55,11 @@
         <link rel="stylesheet" href="css/foundation-icons/foundation-icons.css">
         <link rel="stylesheet" href="css/xtr-icon-size.css">
         <link rel="stylesheet" href="css/xtr-alert.css">
-        <link rel="stylesheet" href="css/divider.css">
 
-        <link rel="stylesheet" href="css/flexbox.css">
         <link rel="stylesheet" href="css/chartbox.css">
-
+        <link rel="stylesheet" href="css/flexbox.css">
         <link rel="stylesheet" href="css/loading.css">
+        <link rel="stylesheet" href="css/divider.css">
 
         <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
         
@@ -97,28 +97,21 @@
                 </li>
             </ul>
         </div>
-        <div id="SIDEBAR" class="xtrTabMenu wide150 vertical left divided">
+        <div id="SIDEBAR" class="xtrTabMenu wide100 vertical left divided">
 
         </div>  
-        <div id="chartbox" class="chartbox">    
-                      
+        <div id="chartbox" class="chartbox">
 
-            <div id="loading" class="loading">
-                <!-- <img src="http://xtr-tinto.consiste.com.br/xtr/recursos-v3.nsf/xtr-logo2.png" 
-                class="spinner fluid"></img> -->
-                <div class="sk-folding-cube">
-                  <div class="sk-cube1 sk-cube"></div>
-                  <div class="sk-cube2 sk-cube"></div>
-                  <div class="sk-cube4 sk-cube"></div>
-                  <div class="sk-cube3 sk-cube"></div>
-                </div>
-            </div>
-
-            <div id="content" style="width:100%">
+            <div id="content" class="clearfix content" style="width:100%">
                 <div id="_xtr_tab_grafico_principal">
-                    <div id="_xtr_grafico" class="xtrGrafico">
+                    <div 
+                        id="_xtr_grafico" 
+                        class="xtrGrafico">
                     </div>
-                    <div id="_xtr_grafico_legenda" class="xtrLegenda">
+
+                    <div 
+                        id="_xtr_grafico_legenda" 
+                        class="xtrLegenda">
                     </div>
                 </div>
 
@@ -134,7 +127,7 @@
                     <table 
                         id="_xtr_tabela_grafico_personalizado2"
                         class="xtrTable"  
-                        style="min-width:100%;">                       
+                        style="min-width:100%;overflow: hidden;">                       
                     </table>
                 </div>
             </div>
@@ -166,6 +159,8 @@
              */
             var compositeDataHandler;
 
+            var loading;
+
             var sideBar;
 
             var xtrAble;
@@ -177,7 +172,7 @@
         ///////////////
         try{
             document.body.addEventListener("keypress",function(event){
-                if(event.keyCode == 27 || event.charCode == 0 || event.key == "Escape"){
+                if(event.keyCode == 27 & event.charCode == 0 || event.key == "Escape"){
                     var closeButton = document.getElementById("view\:_id1\:_id2\:callback1\:_id127\:_id128\:_id132\:_id233\:button1");
                     if(closeButton != null)
                         closeButton.click();
@@ -193,6 +188,8 @@
                 return a.series.length < b.series.length;
             });
 
+            loading = new Loading("chartbox");
+
             console.log("RAW",rawData);
 
             console.log("CPD",compositeDatas);
@@ -203,18 +200,18 @@
 
             xtrTab = new XtrTab("#NAVBAR");
             xtrTooltipNAVBAR = new XtrTooltip("NAVBAR_tooltip","bottom");
-            xtrTooltipNAVBAR.addTrigger("currentChart",{
-                content: "Grafico Exibido"
+            xtrTooltipNAVBAR.addTrigger("#currentChart",{
+                content: "Grafico Atual"
             });
-            xtrTooltipNAVBAR.addTrigger("mergeChart",{
+            xtrTooltipNAVBAR.addTrigger("#mergeChart",{
                 content: "Mesclar Graficos"
             });
-            xtrTooltipNAVBAR.addTrigger("customizeChart",{
+            xtrTooltipNAVBAR.addTrigger("#customizeChart",{
                 content: "Personalizar Grafico"
             });
             xtrAble = new XtrAble();
 
-            chunkSize = 4;
+            chunkSize = 5;
 
             if(dataHandler.search("tabela",0).rotulos.length > 30){
                 xtrAble.disable("customizeChart",true);
@@ -233,16 +230,10 @@
         //METODOS DE CARREGAMENTO //
         ////////////////////////////
             function removeLoading(){
-                var loading = document.getElementById("loading");
-                var content = document.getElementById("content");
-                loading.className = "loading hide";
-                content.className = "blur hide";
+                loading.removeLoading();
             }
             function addLoading(){
-                var content = document.getElementById("content");          
-                var loading = document.getElementById("loading");
-                content.className = "blur";
-                loading.className = "loading";
+                loading.addLoading();
             }
         //////////////////////////////////
         //METODOS DE GERAÇÃO DE GRAFICO //
