@@ -12,73 +12,106 @@ info		hsl(200, 49%, 38%); 	hsl(200, 65%, 91%);  0 ,  -16 , -53
 warning 	hsl(38, 40%, 39%);		hsl(50, 81%, 94%); -12 , -41 , -55
 danger		hsl(1, 44%, 46%); 		hsl(1, 43%, 91%);		1 , 1 , -45
 */
-	.xtrAlert{
-		border-radius: .4em;
+[class*="xtr alert"].arredondado{
+	border-radius: .4em;
+}
+[class*="xtr alert"].fit{
+	width: intrinsic;
+	width: -moz-max-content;
+	width: -webkit-max-content;
+}
+[class*="xtr alert"]{
+	&[class*="comprimento normal"]{
+		width: 200px;
 	}
-	.xtrAlertFit{
-		width: intrinsic;
-		width: -moz-max-content;
-		width: -webkit-max-content;
+	&[class*="comprimento curto"]{
+		width: 100px;
 	}
-	.loop(@counter) when (@counter > 0) {
-		.loop((@counter - 25));
-		.new(@counter);
+	&[class*="comprimento longo"]{
+		width: 300px;
 	}
-	.new(@x){
-		.xtrAlert{
-			&@{x}{
-				&px{
-					width: (@x + 0px); 
-				}
-			}
-		}
+	&[class*="padding normal"]{
+		padding: 0.6em 1.2em;
 	}
-	.loop(300);
- .alert(@x,@color){
-	@BACKGROUND:@color;
-	@BORDA: spin(saturate(lighten(@BACKGROUND,-4%),0%),-10);
-	@BACKGROUND_END: spin(saturate(lighten(@BACKGROUND,-7%),0%),-1);
-	@BORDA_TOP: spin(saturate(lighten(@BACKGROUND,-10%),-1%),-11);
-	@BORDA2: spin(saturate(lighten(@BACKGROUND,-14%),1%),-1);
-	@FONTE: spin(saturate(lighten(@BACKGROUND,-51.75%),-16.75%),1.75); 
-	@FONTE_LINK: spin(saturate(lighten(@BACKGROUND,-64%),-12%),18);
-	
-	.xtrAlert-@{x}  {
-	  color: @FONTE;
-	  background-color: @BACKGROUND;
-	  &:not(.noBorder){
-	  	border-color: @BORDA;
-	  }
+	&[class*="padding pequeno"]{
+		padding: 0.3em 0.6em;
 	}
-	.xtrAlert-@{x} hr {
-	  border-top-color: @BORDA_TOP;
-	}
-	.xtrAlert-@{x} .xtrAlert-link {
-	  color: @FONTE_LINK;
-	}
-	.xtrAlert-@{x} {
-	  background-image: -webkit-linear-gradient(top, @BACKGROUND 0%, @BACKGROUND_END 100%);
-	  background-image:         linear-gradient(to bottom, @BACKGROUND 0%, @BACKGROUND_END 100%);
-	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@{BACKGROUND}', endColorstr='@{BACKGROUND_END}', GradientType=0);
-	  background-repeat: repeat-x;
+	&[class*="padding grande"]{
+		padding: 1.2em 2.4em;
 	}
 }
 
-@default:hsl(1, 0%, 90%);
-@azul:hsl(213, 40%, 90%);
-@vermelho:hsl(8, 40%, 90%);
-@verde:hsl(130, 40%, 90%);
-@roxo:hsl(270, 40%, 90%);
-@laranja:hsl(30, 40%, 90%);
-@amarelo:hsl(50, 40%, 90%);
+ .color(@x,@color){
+	@BACKGROUND:@color;
+	@BORDA: spin(saturate(lighten(@BACKGROUND,-10%),-50%),-10);
+	@BACKGROUND_END: spin(saturate(lighten(@BACKGROUND,-10%),-30%),-10);
+	@BORDA_TOP: spin(saturate(lighten(@BACKGROUND,-10%),0%),-11);
+	@FONTE: spin(saturate(lighten(@BACKGROUND,-50%),-20%),10); 
+	@FONTE_LINK: spin(saturate(lighten(@BACKGROUND,-70%),-12%),20);
+	[class*="xtr alert"]{
+		&.@{x}{
+			color: @FONTE;
+			background-color: @BACKGROUND;
+			border: solid 1px @BORDA;
+		}
+		&[class*="sem borda"]{
+			border: none !important;
+		}
+		&.@{x} hr{
+			border-top-color: @BORDA_TOP;
+		}
+		&.@{x} .link{
+			color: @FONTE_LINK;
+		}
+		&.@{x}{
+			background-image: -webkit-linear-gradient(top, @BACKGROUND 0%, @BACKGROUND_END 100%);
+			background-image:         linear-gradient(to bottom, @BACKGROUND 0%, @BACKGROUND_END 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@{BACKGROUND}', endColorstr='@{BACKGROUND_END}', GradientType=0);
+			background-repeat: repeat-x;
+		}
+	}
+}
+[class*="xtr alert"].inverse{
+	color: #ddd !important;
+}
 
-.alert(default,@default);
-.alert(azul,@azul);
-.alert(vermelho,@vermelho);
-.alert(verde,@verde);
-.alert(roxo,@roxo);
-.alert(laranja,@laranja);
-.alert(amarelo,@amarelo);
+@default:hsl(1, 0%, 90%);
+@inverse:hsl(0, 0%, 40%);
+
+
+@vermelho:hsl(0, 90%, 90%);
+@laranja:hsl(25, 90%, 90%);
+@amarelo:hsl(50, 90%, 90%);
+@oliva:hsl(75, 90%, 90%);
+@lima:hsl(100, 90%, 90%);
+@verde:hsl(125, 90%, 90%);
+@oceano:hsl(150, 90%, 90%);
+@ciano:hsl(175, 90%, 90%);
+@azul:hsl(225, 90%, 90%);
+@lilas:hsl(250, 90%, 90%);
+@roxo:hsl(275, 90%, 90%);
+@fucsia:hsl(300, 90%, 90%);
+@rosa:hsl(325, 90%, 90%);
+@salmao:hsl(350, 90%, 90%);
+
+.color(inverse,@inverse);
+.color(default,@default);
+.color(vermelho,@vermelho);
+.color(laranja,@laranja);
+.color(amarelo,@amarelo);
+.color(oliva,@oliva);
+.color(lima,@lima);
+.color(verde,@verde);
+.color(oceano,@oceano);
+.color(ciano,@ciano);
+.color(azul,@azul);
+.color(lilas,@lilas);
+.color(roxo,@roxo);
+.color(fucsia,@fucsia);
+.color(rosa,@rosa);
+.color(salmao,@salmao);
+
+
 
 
 

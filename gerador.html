@@ -42,6 +42,7 @@
         <script type="text/javascript" src="loading.js"></script>
 
         <link rel="stylesheet" href="../tab/css/xtr-tab.css">
+        <link rel="stylesheet" href="../tab/css/xtr-paginacao-script.css">
 
         <link rel="stylesheet" href="../inputs/css/xtr-butao.css">
         <link rel="stylesheet" href="../inputs/css/xtr-checkbox.css">
@@ -72,38 +73,40 @@
         <input type="number" id="nPontos" placeholder="Pontos/Serie" value="8"/>
         <input type="text" id="titulosidentificadores" placeholder="Eixo de Identificadores" />
         <input type="text" id="titulosvalores" placeholder="Eixo de Valores" />
-        <div id="NAVBAR" class="xtrTabMenu left-align">
+
+        <div id="NAVBAR" class="xtr tab menu alinhamento a esquerda">
             <ul>
                 <li 
                     id = "currentChart"
-                    data-xtr-tab="_xtr_tab_grafico_principal"
-                    data-xtr-tab-onload="nowYouSeeMe(this)">
+                    data-tab-id="tab_exibir"
+                    data-tab-fn="nowYouSeeMe(this)">
                     <i class="fi-home iconSize25"></i>
                 </li>
 
                 <li 
-                    class="active" 
+                    class="ativa" 
                     id="customizeChart"
-                    data-xtr-tab="_xtr_tab_grafico_personalizado"
-                    data-xtr-tab-onload="nowYouSeeMeMore(this,'_xtr_tabela_grafico_personalizado',false)">
+                    data-tab-id="tab_personalizar"
+                    data-tab-fn="customizar">
                     <i class="fi-pencil iconSize25"></i>
                 </li> 
 
                 <li 
                     id="mergeChart"
-                    data-xtr-tab="_xtr_tab_grafico_personalizado2"
-                    data-xtr-tab-onload="nowYouSeeMeMore(this,'_xtr_tabela_grafico_personalizado2',true)">
+                    data-tab-id="tab_mesclar"
+                    data-tab-fn="mesclar">
                     <i class="fi-plus iconSize25"></i>
                 </li>
             </ul>
         </div>
-        <div id="SIDEBAR" class="xtrTabMenu wide100 vertical left divided">
+        <div id="SIDEBAR" class="xtr tab menu largura cem alinhamento vertical esquerda dividido">
 
         </div>  
         <div id="chartbox" class="chartbox">
 
             <div id="content" class="clearfix content" style="width:100%">
-                <div id="_xtr_tab_grafico_principal">
+
+                <div id="tab_exibir">
                     <div 
                         id="_xtr_grafico" 
                         class="xtrGrafico">
@@ -115,17 +118,17 @@
                     </div>
                 </div>
 
-                <div id="_xtr_tab_grafico_personalizado" style="max-width:1080px;margin:auto">
+                <div id="tab_personalizar" style="max-width:1080px;margin:auto">
                     <table 
-                        id="_xtr_tabela_grafico_personalizado"
+                        id="tabela_personalizar"
                         class="xtrTable"  
                         style="min-width:100%;">                       
                     </table>
                 </div>
 
-                <div id="_xtr_tab_grafico_personalizado2" style="max-width:1080px;margin:auto">
+                <div id="tab_mesclar" style="max-width:1080px;margin:auto">
                     <table 
-                        id="_xtr_tabela_grafico_personalizado2"
+                        id="tabela_mesclar"
                         class="xtrTable"  
                         style="min-width:100%;overflow: hidden;">                       
                     </table>
@@ -165,12 +168,12 @@
 
             var xtrAble;
             var xtrTab;
-            var xtrPaginacaoScript;
 
         ///////////////
         //CONSTRUCAO //
         ///////////////
-        try{
+        try{      
+
             document.body.addEventListener("keypress",function(event){
                 if(event.keyCode == 27 & event.charCode == 0 || event.key == "Escape"){
                     var closeButton = document.getElementById("view\:_id1\:_id2\:callback1\:_id127\:_id128\:_id132\:_id233\:button1");
@@ -188,18 +191,21 @@
                 return a.series.length < b.series.length;
             });
 
-            loading = new Loading("chartbox");
-
             console.log("RAW",rawData);
 
             console.log("CPD",compositeDatas);
 
-            compositeDataHandler = new CompositeDataHandler(compositeDatas);    
+            compositeDataHandler = new CompositeDataHandler(compositeDatas);
+
+            chunkSize = 5;
+
+            loading = new Loading("chartbox");
 
             sideBar = new SideBar("#SIDEBAR");
 
             xtrTab = new XtrTab("#NAVBAR");
-            xtrTooltipNAVBAR = new XtrTooltip("NAVBAR_tooltip","bottom");
+            
+            xtrTooltipNAVBAR = new XtrTooltip("NAVBAR_tooltip","baixo");
             xtrTooltipNAVBAR.addTrigger("#currentChart",{
                 content: "Grafico Atual"
             });
@@ -210,9 +216,7 @@
                 content: "Personalizar Grafico"
             });
             xtrAble = new XtrAble();
-
-            chunkSize = 5;
-
+        
             if(dataHandler.search("tabela",0).rotulos.length > 30){
                 xtrAble.disable("customizeChart",true);
                 xtrAble.disable("mergeChart",true);
@@ -225,7 +229,20 @@
             removeLoading();
             document.getElementById("content").remove();
         }
-            
+        function customizar(context){
+            nowYouSeeMeMore('tabela_personalizar',false);
+        }
+        function mesclar(context){
+            nowYouSeeMeMore('tabela_mesclar',true);
+        }
+        function mesclarCustomizar(context,mesclando){
+            if(mesclando){
+                mesclar();
+            }
+            else{
+                customizar();
+            }
+        }
         ////////////////////////////
         //METODOS DE CARREGAMENTO //
         ////////////////////////////
@@ -239,10 +256,12 @@
         //METODOS DE GERAÇÃO DE GRAFICO //
         //////////////////////////////////
             function nowYouSeeMe(x){
+                nowYouSeeMe.once++ || 0;
                 var element = document.querySelector("[data-compositeData-index]");
                 element.click();
                 element.className = element.className.replace("active","");
                 element.className = element.className + " active";
+
             }
             function escalonador(where){
                 var localChart;
@@ -266,7 +285,7 @@
                     },
                     content: "Justaposição(%)",
                     type: "verde",
-                    "class": "xtrAlert xtrAlert-"+alert,
+                    "class": "xtr alert "+alert,
                     addEventListener: {
                         where: "input",
                         type: "change",
@@ -329,6 +348,7 @@
                             },
                             afterEnd: removeLoading
                         });
+                        xtrTab.liberarChamada("tab_mesclar");
                     }
                 }
                 function makeGeoChart(compositeData){
@@ -382,7 +402,7 @@
             ////////////////////////////////
             //METODO DE CRIACAO DE TABELA //
             ////////////////////////////////
-                function nowYouSeeMeMore(context,tableId,mesclar){
+                function nowYouSeeMeMore(tableId,mesclar){
                     var compositeData;
 
                     compositeData = dataHandler.search("tabela",0);
@@ -398,18 +418,6 @@
 
                     makeTable(tableId,mesclar);
 
-                    if(!XtrGraficoUtil.isobj(xtrPaginacaoScript)){
-                        xtrPaginacaoScript = {};
-                    } 
-
-                    xtrPaginacaoScript[tableId] = new XtrPaginacaoScript({
-                        containerSelector: "#"+tableId,
-                        elementAttribute: "data-colunaIndex",
-                        chunkSize: chunkSize,
-                        chunckNumber: 0,
-                        paginator:["#"+tableId+"_paginasTop","#"+tableId+"_paginasBottom"]
-                    });   
-                    
                     removeLoading();
                 }
                 function makeTable(tableId,mesclando){

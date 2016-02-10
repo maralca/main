@@ -30,7 +30,27 @@ function Loading(id){
 
 	whereLoad.appendChild(blocker);
 
-	setTimeout(function(){
+	if(XtrGraficoUtil.isset(window.MutationObserver)){
+		new MutationObserver(ocupar).observe(whereLoad,{ 
+			attributes: true, 
+			childList: true, 
+			characterData: true 
+		});
+	}
+	else{
+		document.addEventListener("DOMSubtreeModified",function(){
+			setTimeout(ocupar,10);
+		});
+	}
+
+	this.addLoading=addLoading;
+	this.removeLoading=removeLoading;
+
+	return this;
+
+	function ocupar(){
+		var bounding;
+
 		bounding = whereLoad.getBoundingClientRect();
 
 		blocker.style.setProperty("width",bounding.width);
@@ -41,13 +61,8 @@ function Loading(id){
 		container.style.setProperty("width",bounding.width);
 		container.style.setProperty("height",bounding.height);
 		container.style.setProperty("top",bounding.top);
-		container.style.setProperty("left",bounding.left);		
-	},20);
-
-	this.addLoading=addLoading;
-	this.removeLoading=removeLoading;
-
-	return this;
+		container.style.setProperty("left",bounding.left);	
+	}
 
 	function blur(){
 		unblur(whereLoad);
