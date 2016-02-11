@@ -8,8 +8,7 @@
 
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.9.2/dijit/themes/tundra/tundra.css">
         
-        <script type="text/javascript" src="../util/javascript/xtr-grafico-util.js"></script>
-        <script type="text/javascript" src="../util/javascript/xtr-query.js"></script>        
+        <script type="text/javascript" src="../util/javascript/xtr-grafico-util.js"></script>  
         <script type="text/javascript" src="../util/javascript/xtr-require.js"></script>
 
         <script type="text/javascript" src="../tab/javascript/xtr-paginacao-script.js"></script>
@@ -21,6 +20,7 @@
         <script type="text/javascript" src="../grafico/javascript/xtr-grafico-parametros.js"></script>
         <script type="text/javascript" src="../grafico/javascript/xtr-grafico-modulos.js"></script>
         <script type="text/javascript" src="../grafico/javascript/xtr-grafico-estilos.js"></script>
+        <script type="text/javascript" src="../grafico/javascript/xtr-grafico-geografico.js"></script>
 
         <script type="text/javascript" src="../inputs/javascript/xtr-table.js"></script>
         <script type="text/javascript" src="../inputs/javascript/xtr-butao.js"></script>
@@ -37,6 +37,8 @@
         <script type="text/javascript" src="../datahandler/javascript/xtr-grafico-geografico.js"></script>
 
         <script type="text/javascript" src="source/source.js"></script>
+        <script type="text/javascript" src="source/sourceBahiaMuni.js"></script>
+        <script type="text/javascript" src="source/sourceEstados.js"></script>
 
         <script type="text/javascript" src="source/icones.js"></script>
         <script type="text/javascript" src="loading.js"></script>
@@ -77,6 +79,7 @@
         <div id="NAVBAR" class="xtr tab menu alinhamento a esquerda">
             <ul>
                 <li 
+                    class="ativa" 
                     id = "currentChart"
                     data-tab-id="tab_exibir"
                     data-tab-fn="nowYouSeeMe(this)">
@@ -84,7 +87,6 @@
                 </li>
 
                 <li 
-                    class="ativa" 
                     id="customizeChart"
                     data-tab-id="tab_personalizar"
                     data-tab-fn="customizar">
@@ -99,7 +101,8 @@
                 </li>
             </ul>
         </div>
-        <div id="SIDEBAR" class="xtr tab menu largura cem alinhamento vertical esquerda dividido">
+        <div id="SIDEBAR" 
+            class="xtr tab menu largura cem padding reduzido alinhamento vertical esquerda dividido">
 
         </div>  
         <div id="chartbox" class="chartbox">
@@ -141,13 +144,14 @@
         ///////////
         //TRASH  //
         ///////////
-            rawData.alt.grafico = [
-                {
-                    colunas: [1],
-                    mostrar: true,
-                    tipo: "pizza"
-                },
-            ];      
+            // rawData.alt.grafico = [
+            //     {
+            //         colunas: [1],
+            //         mostrar: true,
+            //         tipo: "pizza"
+            //     },
+            // ];   
+            rawData = rawDataEstados;   
         ////////////////////////
         //VARIAVEIS DE ESCOPO //
         ////////////////////////
@@ -172,15 +176,16 @@
         ///////////////
         //CONSTRUCAO //
         ///////////////
-        try{      
-
+        try{
+        document.addEventListener("DOMContentLoaded",function(){
             document.body.addEventListener("keypress",function(event){
                 if(event.keyCode == 27 & event.charCode == 0 || event.key == "Escape"){
                     var closeButton = document.getElementById("view\:_id1\:_id2\:callback1\:_id127\:_id128\:_id132\:_id233\:button1");
                     if(closeButton != null)
                         closeButton.click();
                 }
-            });
+            });            
+
             //rawData = #{javascript: xtrJson(compositeData); };
             if(rawData.alt){
                 rawData=rawData.alt;
@@ -188,7 +193,7 @@
             dataHandler = new DataHandler(rawData);            
             compositeDatas = dataHandler.load();
             compositeDatas.sort(function(a,b){
-                return a.series.length < b.series.length;
+                return b.series.length - a.series.length;
             });
 
             console.log("RAW",rawData);
@@ -197,14 +202,14 @@
 
             compositeDataHandler = new CompositeDataHandler(compositeDatas);
 
-            chunkSize = 5;
-
             loading = new Loading("chartbox");
+
+            xtrTab = new XtrTab("#NAVBAR");
 
             sideBar = new SideBar("#SIDEBAR");
 
-            xtrTab = new XtrTab("#NAVBAR");
-            
+            chunkSize = 5;
+
             xtrTooltipNAVBAR = new XtrTooltip("NAVBAR_tooltip","baixo");
             xtrTooltipNAVBAR.addTrigger("#currentChart",{
                 content: "Grafico Atual"
@@ -223,7 +228,7 @@
             }
 
             heritage("chartbox");
-        }
+        })}
         catch(e){
             console.error(e);
             removeLoading();
@@ -256,11 +261,15 @@
         //METODOS DE GERAÇÃO DE GRAFICO //
         //////////////////////////////////
             function nowYouSeeMe(x){
-                nowYouSeeMe.once++ || 0;
-                var element = document.querySelector("[data-compositeData-index]");
-                element.click();
-                element.className = element.className.replace("active","");
-                element.className = element.className + " active";
+                setTimeout(function(){
+                    nowYouSeeMe.once++ || 0;
+                    var element = document.querySelectorAll("[data-compositeData-index]");
+                    if(element.length == 0) return;
+                    element = element[0];
+                    element.click();
+                    element.className = element.className.replace("active","");
+                    element.className = element.className + " active";
+                },10);
 
             }
             function escalonador(where){
