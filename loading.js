@@ -26,6 +26,7 @@ function Loading(id){
 	}
 
 	blocker = document.createElement("div");
+	blocker.id = "BLOCKER";
 	blocker.className = "blocker";
 
 	whereLoad.appendChild(blocker);
@@ -38,9 +39,7 @@ function Loading(id){
 		});
 	}
 	else{
-		document.addEventListener("DOMSubtreeModified",function(){
-			setTimeout(ocupar,10);
-		});
+		document.addEventListener("DOMSubtreeModified",ocupar);
 	}
 
 	this.addLoading=addLoading;
@@ -50,18 +49,19 @@ function Loading(id){
 
 	function ocupar(){
 		var bounding;
+		setTimeout(function(){
+			bounding = whereLoad.getBoundingClientRect();
 
-		bounding = whereLoad.getBoundingClientRect();
+			blocker.style.setProperty("width",bounding.width+"px");
+			blocker.style.setProperty("height",bounding.height+"px");
+			blocker.style.setProperty("top",bounding.top+"px");
+			blocker.style.setProperty("left",bounding.left+"px");
 
-		blocker.style.setProperty("width",bounding.width);
-		blocker.style.setProperty("height",bounding.height);
-		blocker.style.setProperty("top",bounding.top);
-		blocker.style.setProperty("left",bounding.left);
-
-		container.style.setProperty("width",bounding.width);
-		container.style.setProperty("height",bounding.height);
-		container.style.setProperty("top",bounding.top);
-		container.style.setProperty("left",bounding.left);	
+			container.style.setProperty("width",bounding.width+"px");
+			container.style.setProperty("height",bounding.height+"px");
+			container.style.setProperty("top",bounding.top+"px");
+			container.style.setProperty("left",bounding.left+"px");
+		},30);
 	}
 
 	function blur(){

@@ -76,7 +76,7 @@
         <input type="number" id="nPontos" placeholder="Pontos/Serie" value="8"/>
         <input type="text" id="titulosidentificadores" placeholder="Eixo de Identificadores" />
         <input type="text" id="titulosvalores" placeholder="Eixo de Valores" />
-
+        <div style="top:50%;left:50%;width:0px;height:0px;pointer-events:none;position: absolute;" id="middle"></div>
         <div id="NAVBAR" class="xtr tab menu alinhamento a esquerda">
             <ul>
                 <li 
@@ -186,8 +186,10 @@
             document.body.addEventListener("keypress",function(event){
                 if(event.keyCode == 27 && event.charCode == 0 || event.key == "Escape"){
                     var closeButton = document.getElementById("view\:_id1\:_id2\:callback1\:_id127\:_id128\:_id132\:_id233\:button1");
-                    if(closeButton != null)
-                        closeButton.click();
+                    if(closeButton != null){
+                        closeButton.click();  
+                    }
+                   window.location.href = window.location.href.split('#')[0];
                 }
             });            
 
@@ -253,10 +255,12 @@
             var compositeData;
             var tipo;
 
+            select = document.getElementById("tabela_personalizar_tipo");
+            if(select == null)
+                return
+
             compositeData = compositeDataHandler.current();
             tipo = compositeData.tipo;
-
-            select = document.getElementById("tabela_personalizar_tipo");
 
             XtrDivSelect.selecionar(select,tipo);
         }
