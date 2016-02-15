@@ -80,17 +80,21 @@
         <div id="NAVBAR" class="xtr tab menu alinhamento a esquerda">
             <ul>
                 <li 
-                    class="ativa" 
                     id = "currentChart"
                     data-tab-id="tab_exibir"
-                    data-tab-fn="nowYouSeeMe(this)">
+                    data-tab-fn="nowYouSeeMe(this)"
+                    data-tab-allways-fn="refreshType"
+                    data-tab-onfirst-fn="">
                     <i class="fi-home iconSize25"></i>
                 </li>
 
                 <li 
+                    class="ativa" 
                     id="customizeChart"
                     data-tab-id="tab_personalizar"
-                    data-tab-fn="customizar">
+                    data-tab-fn="customizar"
+                    data-tab-allways-fn=""
+                    data-tab-onfirst-fn="">
                     <i class="fi-pencil iconSize25"></i>
                 </li> 
 
@@ -152,7 +156,7 @@
             //         tipo: "pizza"
             //     },
             // ];   
-            rawData = rawDataBrasilMuni;   
+           // rawData = rawDataBahiaMuni;
         ////////////////////////
         //VARIAVEIS DE ESCOPO //
         ////////////////////////
@@ -180,7 +184,7 @@
         try{
         document.addEventListener("DOMContentLoaded",function(){
             document.body.addEventListener("keypress",function(event){
-                if(event.keyCode == 27 & event.charCode == 0 || event.key == "Escape"){
+                if(event.keyCode == 27 && event.charCode == 0 || event.key == "Escape"){
                     var closeButton = document.getElementById("view\:_id1\:_id2\:callback1\:_id127\:_id128\:_id132\:_id233\:button1");
                     if(closeButton != null)
                         closeButton.click();
@@ -203,13 +207,15 @@
 
             compositeDataHandler = new CompositeDataHandler(compositeDatas);
 
+            chunkSize = 5;
+
             loading = new Loading("chartbox");
 
             xtrTab = new XtrTab("#NAVBAR");
 
-            sideBar = new SideBar("#SIDEBAR");
-
-            chunkSize = 5;
+            sideBar = new SideBar("#SIDEBAR",{
+                "allways-fn": refreshType
+            });
 
             xtrTooltipNAVBAR = new XtrTooltip("NAVBAR_tooltip","baixo");
             xtrTooltipNAVBAR.addTrigger("#currentChart",{
@@ -235,18 +241,33 @@
             removeLoading();
             document.getElementById("content").remove();
         }
-        function customizar(context){
+        function customizar(){
             nowYouSeeMeMore('tabela_personalizar',false);
         }
-        function mesclar(context){
+        function mesclar(){
             nowYouSeeMeMore('tabela_mesclar',true);
+        }
+        function refreshType(){
+            var select;
+            
+            console.log("asdasdas");
+
+            var compositeData;
+            var tipo;
+
+            compositeData = compositeDataHandler.current();
+            tipo = compositeData.tipo;
+
+            select = document.getElementById("tabela_personalizar_tipo");
+
+            XtrDivSelect.selecionar(select,tipo);
         }
         function mesclarCustomizar(context,mesclando){
             if(mesclando){
-                mesclar();
+                nowYouSeeMeMore('tabela_mesclar',true);
             }
-            else{
-                customizar();
+            else{                
+                nowYouSeeMeMore('tabela_personalizar',false);
             }
         }
         ////////////////////////////
@@ -265,7 +286,8 @@
                 setTimeout(function(){
                     nowYouSeeMe.once++ || 0;
                     var element = document.querySelectorAll("[data-compositeData-index]");
-                    if(element.length == 0) return;
+                    if(element.length == 0) 
+                        return;
                     element = element[0];
                     element.click();
                     element.className = element.className.replace("active","");
@@ -398,8 +420,8 @@
 
                         var param = new SuperParameter(localChart);
 
-                        geoAreaGrafico(compositeData,cords,180,50,180,0.05,20);
-                        geoAreaLegenda(compositeData,180,50,180,5,0.05,20,param.getLegend().style);
+                        geoAreaGrafico(compositeData,cords,180,50,180,10);
+                        geoAreaLegenda(compositeData,180,50,180,5,0.05,10,param.getLegend().style);
                         stylish(localChart).legendIcons(false,true);
                         stylish(localChart).labelText();
                         removeLoading();
