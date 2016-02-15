@@ -414,19 +414,19 @@
                     document.getElementById(xtrGrafico.ID_GRAFICO).innerHTML="";
 
                     var toEval = "XTR_"+subTipo;
-                    console.log(toEval);
-
+                    
                     xtrRequire(toEval,function(){
+                        xtrRequire("XTR_MUNICIPIOS_INFO",function(){
+                            cords = eval(toEval);
 
-                        cords = eval(toEval);
+                            var param = new SuperParameter(localChart);
 
-                        var param = new SuperParameter(localChart);
-
-                        geoAreaGrafico(compositeData,cords,180,50,180,10);
-                        geoAreaLegenda(compositeData,180,50,180,5,0.05,10,param.getLegend().style);
-                        stylish(localChart).legendIcons(false,true);
-                        stylish(localChart).labelText();
-                        removeLoading();
+                            geoAreaGrafico(compositeData,cords,180,50,180,10);
+                            geoAreaLegenda(compositeData,180,50,180,5,0.05,10,param.getLegend().style);
+                            stylish(localChart).legendIcons(false,true);
+                            stylish(localChart).labelText();
+                            removeLoading();
+                        });
                         //stylish(localChart).legendContainer();
                     });
                 }
