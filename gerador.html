@@ -198,7 +198,7 @@
             dataHandler = new DataHandler(rawData);            
             compositeDatas = dataHandler.load();
             compositeDatas.sort(function(a,b){
-                return b.series.length - a.series.length;
+                return XtrGraficoUtil.compare(b,a,"series.length");
             });
 
             console.log("RAW",rawData);
@@ -249,8 +249,6 @@
         }
         function refreshType(){
             var select;
-            
-            console.log("asdasdas");
 
             var compositeData;
             var tipo;
