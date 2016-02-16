@@ -34,7 +34,6 @@
         <script type="text/javascript" src="../tooltip/javascript/xtr-tooltip.js"></script>
 
         <script type="text/javascript" src="../datahandler/javascript/xtr-datahandler.js"></script>
-        <script type="text/javascript" src="../datahandler/javascript/xtr-grafico-geografico.js"></script>
 
         <script type="text/javascript" src="source/source.js"></script>
         <script type="text/javascript" src="source/sourceBahiaMuni.js"></script>
@@ -111,21 +110,17 @@
 
         </div>  
         <div id="chartbox" class="chartbox">
-
             <div id="content" class="clearfix content" style="width:100%">
-
                 <div id="tab_exibir">
                     <div 
                         id="_xtr_grafico" 
                         class="xtrGrafico">
                     </div>
-
                     <div 
                         id="_xtr_grafico_legenda" 
                         class="xtrLegenda">
                     </div>
                 </div>
-
                 <div id="tab_personalizar" style="max-width:1080px;margin:auto">
                     <table 
                         id="tabela_personalizar"
@@ -133,7 +128,6 @@
                         style="min-width:100%;">                       
                     </table>
                 </div>
-
                 <div id="tab_mesclar" style="max-width:1080px;margin:auto">
                     <table 
                         id="tabela_mesclar"
@@ -156,7 +150,7 @@
             //         tipo: "pizza"
             //     },
             // ];   
-        rawData = rawDataBrasilMuni;
+        rawData = rawDataEstados;
         ////////////////////////
         //VARIAVEIS DE ESCOPO //
         ////////////////////////
@@ -256,6 +250,7 @@
             var tipo;
 
             select = document.getElementById("tabela_personalizar_tipo");
+
             if(select == null)
                 return
 
@@ -410,14 +405,26 @@
 
                     addLoading();
 
-                    document.getElementById(xtrGrafico.ID_LEGENDA).innerHTML="";
-                    document.getElementById(xtrGrafico.ID_GRAFICO).innerHTML="";
+                    var legenda = document.getElementById(xtrGrafico.ID_LEGENDA);
+                    var grafico = document.getElementById(xtrGrafico.ID_GRAFICO);
+
+                    for(graficoIndex = 0; grafico.childNodes.length > graficoIndex; graficoIndex++){
+                        grafico.childNodes[graficoIndex].remove();
+                    }
+                    for(legendaIndex = 0; legenda.childNodes.length > legendaIndex; legendaIndex++){
+                        legenda.childNodes[legendaIndex].remove();
+                    }
+
+                    legenda.innerHTML="";
+                    grafico.innerHTML="";
 
                     var toEval = "XTR_"+subTipo;
-                    
+                    console.log("start");
                     xtrRequire(toEval,function(){
+                        cords = eval(toEval);
+                        console.log(toEval);
                         xtrRequire("XTR_MUNICIPIOS_INFO",function(){
-                            cords = eval(toEval);
+                            console.log("XTR_MUNICIPIOS_INFO");
 
                             var param = new SuperParameter(localChart);
 
@@ -426,6 +433,15 @@
                             stylish(localChart).legendIcons(false,true);
                             stylish(localChart).labelText();
                             removeLoading();
+
+                            cords = null;
+                            XTR_MUNICIPIOS_INFO = null;
+
+                            delete window.cords;
+                            delete window.XTR_MUNICIPIOS_INFO;
+                            delete cords;
+                            delete XTR_MUNICIPIOS_INFO;
+
                         });
                         //stylish(localChart).legendContainer();
                     });

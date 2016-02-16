@@ -2,6 +2,9 @@ function Loading(id){
 	var whereLoad;
 	var load;
 
+	var blocker;
+	var container;
+
 	load = '<div class="spinner">'
 		+'<div class="rect1"></div>'
 		+'<div class="rect2"></div>'
@@ -51,16 +54,11 @@ function Loading(id){
 		var bounding;
 		setTimeout(function(){
 			bounding = whereLoad.getBoundingClientRect();
-
+			console.log(whereLoad);
+			console.log(bounding);
 			blocker.style.setProperty("width",bounding.width+"px");
 			blocker.style.setProperty("height",bounding.height+"px");
-			blocker.style.setProperty("top",bounding.top+"px");
-			blocker.style.setProperty("left",bounding.left+"px");
-
-			container.style.setProperty("width",bounding.width+"px");
-			container.style.setProperty("height",bounding.height+"px");
-			container.style.setProperty("top",bounding.top+"px");
-			container.style.setProperty("left",bounding.left+"px");
+			blocker.style.setProperty("top","12.3em");
 		},30);
 	}
 
