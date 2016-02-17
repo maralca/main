@@ -54,8 +54,6 @@ function Loading(id){
 		var bounding;
 		setTimeout(function(){
 			bounding = whereLoad.getBoundingClientRect();
-			console.log(whereLoad);
-			console.log(bounding);
 			blocker.style.setProperty("width",bounding.width+"px");
 			blocker.style.setProperty("height",bounding.height+"px");
 			blocker.style.setProperty("top","12.3em");

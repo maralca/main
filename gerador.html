@@ -150,7 +150,7 @@
             //         tipo: "pizza"
             //     },
             // ];   
-        rawData = rawDataBahiaMuni;
+        //rawData = rawDataBahiaMuni;
         ////////////////////////
         //VARIAVEIS DE ESCOPO //
         ////////////////////////
@@ -165,6 +165,8 @@
              */
             var compositeDataHandler;
 
+            var cookieHandler;
+
             var loading;
 
             var sideBar;
@@ -178,12 +180,14 @@
         try{
         document.addEventListener("DOMContentLoaded",function(){
             document.body.addEventListener("keypress",function(event){
-                if(event.keyCode == 27 && event.charCode == 0 || event.key == "Escape"){
-                    var closeButton = document.getElementById("view\:_id1\:_id2\:callback1\:_id127\:_id128\:_id132\:_id233\:button1");
+                if(event.keyCode == 27 && event.charCode == 0 || event.key == "Escape"){                                                        
+                    var closeButton = document.querySelector(".xtr-form-block:last-child button");
+                    closeButton.addEventListener("click",function(){
+                        window.location.href = window.location.href.split('#')[0];
+                    });
                     if(closeButton != null){
                         closeButton.click();  
                     }
-                   window.location.href = window.location.href.split('#')[0];
                 }
             });            
 
@@ -201,7 +205,10 @@
 
             console.log("CPD",compositeDatas);
 
+            cookieHandler = new CookieHandler();
+
             compositeDataHandler = new CompositeDataHandler(compositeDatas);
+            compositeDataHandler.addToAll("tema",cookieHandler.get("xtr_grafico_tema"));
 
             chunkSize = 5;
 
@@ -210,18 +217,19 @@
             xtrTab = new XtrTab("#NAVBAR");
 
             sideBar = new SideBar("#SIDEBAR",{
-                "allways-fn": refreshType
+                "allways-fn": refreshType,
+                "adapter-fn": refreshTheme
             });
 
             xtrTooltipNAVBAR = new XtrTooltip("NAVBAR_tooltip","baixo");
             xtrTooltipNAVBAR.addTrigger("#currentChart",{
-                content: "Grafico Atual"
+                content: "Gráfico Atual"
             });
             xtrTooltipNAVBAR.addTrigger("#mergeChart",{
-                content: "Mesclar Graficos"
+                content: "Mesclar Gráficos"
             });
             xtrTooltipNAVBAR.addTrigger("#customizeChart",{
-                content: "Personalizar Grafico"
+                content: "Personalizar Gráfico"
             });
             xtrAble = new XtrAble();
         
@@ -243,6 +251,25 @@
         function mesclar(){
             nowYouSeeMeMore('tabela_mesclar',true);
         }
+        function refreshTheme(compositeData){
+            var tema;
+
+            tema = document.getElementById("input_tabela_personalizar_tema");
+            if(tema == null){
+                tema = document.getElementById("input_tabela_mesclar_tema");
+            }
+            if(tema == null){
+                return;
+            }
+            tema = tema.value;
+
+            if(XtrGraficoUtil.isset(compositeData)){
+                compositeData.tema = tema;
+            }
+
+            cookieHandler.set("xtr_grafico_tema",tema,3600);
+            compositeDataHandler.addToAll("tema",tema);
+        }
         function refreshType(){
             var select;
 
@@ -259,7 +286,7 @@
 
             XtrDivSelect.selecionar(select,tipo);
         }
-        function mesclarCustomizar(context,mesclando){
+        function mesclarCustomizar(mesclando){
             if(mesclando){
                 nowYouSeeMeMore('tabela_mesclar',true);
             }
