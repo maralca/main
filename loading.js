@@ -29,35 +29,23 @@ function Loading(id){
 	}
 
 	blocker = document.createElement("div");
-	blocker.id = "BLOCKER";
+	blocker.id = "blocker";
 	blocker.className = "blocker";
-
-	whereLoad.appendChild(blocker);
-
-	if(XtrGraficoUtil.isset(window.MutationObserver)){
-		new MutationObserver(ocupar).observe(whereLoad,{ 
-			attributes: true, 
-			childList: true, 
-			characterData: true 
-		});
-	}
-	else{
-		document.addEventListener("DOMSubtreeModified",ocupar);
-	}
-
+	
+	whereLoad.appendChild(blocker);	
+	
 	this.addLoading=addLoading;
 	this.removeLoading=removeLoading;
 
 	return this;
 
 	function ocupar(){
-		var bounding;
 		setTimeout(function(){
 			bounding = whereLoad.getBoundingClientRect();
+			blocker.style.setProperty("top",bounding.top+"px");
 			blocker.style.setProperty("width",bounding.width+"px");
 			blocker.style.setProperty("height",bounding.height+"px");
-			blocker.style.setProperty("top","12.3em");
-		},30);
+		},20);
 	}
 
 	function blur(){
@@ -77,6 +65,7 @@ function Loading(id){
 	function addLoading(){
 		show(container);
 		show(blocker);
+		ocupar();
 		blur();
 	}
 	function removeLoading(){
