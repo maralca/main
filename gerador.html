@@ -29,6 +29,8 @@
         <script type="text/javascript" src="../inputs/javascript/xtr-svg.js"></script>
         <script type="text/javascript" src="../inputs/javascript/xtr-input.js"></script>
 
+        <script type="text/javascript" src="../geochart/libs/XTR_MUNICIPIOS_INFO.js"></script>
+
         <script type="text/javascript" src="../inputs/javascript/xtr-table-maker.js"></script>
 
         <script type="text/javascript" src="../tooltip/javascript/xtr-tooltip.js"></script>
@@ -39,6 +41,9 @@
         <script type="text/javascript" src="source/sourceBahiaMuni.js"></script>
         <script type="text/javascript" src="source/sourceEstados.js"></script>
         <script type="text/javascript" src="source/sourceBrasilMuni.js"></script>
+        <script type="text/javascript" src="source/sourceCearaMuni.js"></script>
+        <script type="text/javascript" src="source/sourceAlagoasMuni.js"></script>
+        <script type="text/javascript" src="source/sourceMeso.js"></script>
 
         <script type="text/javascript" src="source/icones.js"></script>
         <script type="text/javascript" src="loading.js"></script>
@@ -69,12 +74,6 @@
     </head>
 
     <body class="tundra" style="margin:auto; width:800px">
-        <input type="text" id="tipo" placeholder="Tipo" value="colunas"/>
-        <input type="text" id="tema" placeholder="Tema" value="popkitblue"/>
-        <input type="number" id="nSeries" placeholder="Series" value="7"/>
-        <input type="number" id="nPontos" placeholder="Pontos/Serie" value="8"/>
-        <input type="text" id="titulosidentificadores" placeholder="Eixo de Identificadores" />
-        <input type="text" id="titulosvalores" placeholder="Eixo de Valores" />
         <div style="top:50%;left:50%;width:0px;height:0px;pointer-events:none;position: absolute;" id="middle"></div>
         <div id="NAVBAR" class="xtr tab menu alinhamento a esquerda">
             <ul>
@@ -139,7 +138,7 @@
 
         </div>
         
-        <script type="text/javascript"> 
+        <script type="text/javascript">
         ///////////
         //TRASH  //
         ///////////
@@ -150,7 +149,7 @@
             //         tipo: "pizza"
             //     },
             // ];   
-        //rawData = rawDataBahiaMuni;
+        rawData = rawDataMeso;
         ////////////////////////
         //VARIAVEIS DE ESCOPO //
         ////////////////////////
@@ -179,19 +178,9 @@
         ///////////////
         try{
         document.addEventListener("DOMContentLoaded",function(){
-            document.body.addEventListener("keypress",function(event){
-                if(event.keyCode == 27 && event.charCode == 0 || event.key == "Escape"){                                                        
-                    var closeButton = document.querySelector(".xtr-form-block:last-child button");
-                    closeButton.addEventListener("click",function(){
-                        window.location.href = window.location.href.split('#')[0];
-                    });
-                    if(closeButton != null){
-                        closeButton.click();  
-                    }
-                }
-            });            
-
+            
             //rawData = #{javascript: xtrJson(compositeData); };
+
             if(rawData.alt){
                 rawData=rawData.alt;
             }
@@ -446,12 +435,14 @@
                     grafico.innerHTML="";
 
                     var toEval = "XTR_"+subTipo;
+                    console.log(compositeData.tipo);
                     console.log("start");
-                    xtrRequire(toEval,function(){
-                        cords = eval(toEval);
-                        console.log(toEval);
-                        xtrRequire("XTR_MUNICIPIOS_INFO",function(){
-                            console.log("XTR_MUNICIPIOS_INFO");
+                    xtrRequire("XTR_MUNICIPIOS_INFO",function(){
+                        console.log("XTR_MUNICIPIOS_INFO");
+
+                         xtrRequire(toEval,function(){
+                            cords = eval(toEval);
+                            console.log(toEval);
 
                             var param = new SuperParameter(localChart);
 
