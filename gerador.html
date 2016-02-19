@@ -44,6 +44,7 @@
         <script type="text/javascript" src="source/sourceCearaMuni.js"></script>
         <script type="text/javascript" src="source/sourceAlagoasMuni.js"></script>
         <script type="text/javascript" src="source/sourceMeso.js"></script>
+        <script type="text/javascript" src="source/sourceMicro.js"></script>
 
         <script type="text/javascript" src="source/icones.js"></script>
         <script type="text/javascript" src="loading.js"></script>
@@ -149,7 +150,7 @@
             //         tipo: "pizza"
             //     },
             // ];   
-        rawData = rawDataEstados;
+        rawData = rawDataMicro;
         ////////////////////////
         //VARIAVEIS DE ESCOPO //
         ////////////////////////
@@ -420,8 +421,6 @@
 
                     arq = getFileName(compositeData.tipo);
 
-                    console.log(arq);
-
                     addLoading();
 
                     var legenda = document.getElementById(xtrGrafico.ID_LEGENDA);
@@ -435,13 +434,11 @@
                     }
 
                     legenda.innerHTML="";
-                    grafico.innerHTML="";
+                    grafico.innerHTML="";                    
 
-                    console.log(compositeData.tipo);
-                    console.log("start");
-                    
+                    console.log("before xtrRequire:",arq);
 
-                     xtrRequire(arq,function(){
+                    xtrRequire(arq,function(){
                         cords = eval(arq);
                         console.log(arq);
 
@@ -477,8 +474,8 @@
                             case "brasil":
                                 arq += "BRASIL";
                                 break;
-                            default:
-                                arq += subTipos[2].toUpperCase();
+                            case "estados":
+                                arq += subTipos[3].toUpperCase();
                                 break;
                         }
                     }
