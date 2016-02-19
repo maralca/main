@@ -149,7 +149,7 @@
             //         tipo: "pizza"
             //     },
             // ];   
-        rawData = rawDataMeso;
+        rawData = rawDataEstados;
         ////////////////////////
         //VARIAVEIS DE ESCOPO //
         ////////////////////////
@@ -405,19 +405,22 @@
 
                     var localChart;
 
-                    var subTipo;
+                    var subTipos;
 
                     var script;
                     var cords;
 
+                    var arq;
+
                     localChart = new SuperChart(compositeData);
 
-                    series = compositeData.series;
+                    series = compositeData.series;                    
 
                     serie = series[0];
-                    subTipo = compositeData.tipo.split("/");
-                    subTipo = subTipo[1];
-                    subTipo = subTipo.toUpperCase();
+
+                    arq = getFileName(compositeData.tipo);
+
+                    console.log(arq);
 
                     addLoading();
 
@@ -434,35 +437,56 @@
                     legenda.innerHTML="";
                     grafico.innerHTML="";
 
-                    var toEval = "XTR_"+subTipo;
                     console.log(compositeData.tipo);
                     console.log("start");
-                    xtrRequire("XTR_MUNICIPIOS_INFO",function(){
-                        console.log("XTR_MUNICIPIOS_INFO");
+                    
 
-                         xtrRequire(toEval,function(){
-                            cords = eval(toEval);
-                            console.log(toEval);
+                     xtrRequire(arq,function(){
+                        cords = eval(arq);
+                        console.log(arq);
 
-                            var param = new SuperParameter(localChart);
+                        var param = new SuperParameter(localChart);
 
-                            geoAreaGrafico(compositeData,cords,180,50,180,10);
-                            geoAreaLegenda(compositeData,180,50,180,5,0.05,10,param.getLegend().style);
-                            stylish(localChart).legendIcons(false,true);
-                            stylish(localChart).labelText();
-                            removeLoading();
+                        geoAreaGrafico(compositeData,cords,180,50,180,10);
+                        geoAreaLegenda(compositeData,180,50,180,5,0.05,10,param.getLegend().style);
+                        stylish(localChart).legendIcons(false,true);
+                        stylish(localChart).labelText();
+                        removeLoading();
 
-                            cords = null;
-                            XTR_MUNICIPIOS_INFO = null;
+                        cords = null;
+                        XTR_MUNICIPIOS_INFO = null;
 
-                            delete window.cords;
-                            delete window.XTR_MUNICIPIOS_INFO;
-                            delete cords;
-                            delete XTR_MUNICIPIOS_INFO;
+                        delete window.cords;
+                        delete window.XTR_MUNICIPIOS_INFO;
+                        delete cords;
+                        delete XTR_MUNICIPIOS_INFO;
 
-                        });
-                        //stylish(localChart).legendContainer();
                     });
+                }
+                function getFileName(tipo){
+                    var arq;
+                    var subTipos;
+
+                    subTipos = tipo.split("/");
+
+                    arq = "XTR_";
+
+                    if(["municipios","mesorregioes","microrregioes"].indexOf(subTipos[1]) >= 0){ //MAPA DE MUNICIPIOS
+                        arq += "MUNICIPIOS_"
+                        switch(subTipos[2]){
+                            case "brasil":
+                                arq += "BRASIL";
+                                break;
+                            default:
+                                arq += subTipos[2].toUpperCase();
+                                break;
+                        }
+                    }
+                    else if("estados" == subTipos[1]){
+                        arq += "ESTADOS_BRASIL";
+                    }
+
+                    return arq;
                 }
         ////////////////////////
         //METODOS PARA TABELA //
