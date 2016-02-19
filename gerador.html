@@ -75,7 +75,6 @@
     </head>
 
     <body class="tundra" style="margin:auto; width:800px">
-        <div style="top:50%;left:50%;width:0px;height:0px;pointer-events:none;position: absolute;" id="middle"></div>
         <div id="NAVBAR" class="xtr tab menu alinhamento a esquerda">
             <ul>
                 <li 
@@ -150,7 +149,7 @@
             //         tipo: "pizza"
             //     },
             // ];   
-        rawData = rawDataMicro;
+        rawData = rawDataEstados;
         ////////////////////////
         //VARIAVEIS DE ESCOPO //
         ////////////////////////
@@ -444,8 +443,24 @@
 
                         var param = new SuperParameter(localChart);
 
-                        geoAreaGrafico(compositeData,cords,180,50,180,10);
-                        geoAreaLegenda(compositeData,180,50,180,5,0.05,10,param.getLegend().style);
+                        geoAreaGrafico(compositeData,{
+                            coordenadas: cords,
+                            color: {
+                                red: 180,
+                                green: 50,
+                                blue: 180
+                            }
+                        });
+                        geoAreaLegenda(compositeData,{
+                            color:{
+                                red: 180,
+                                green: 50,
+                                blue: 180
+                            },
+                            amount: 5,
+                            style: param.getLegend().style
+                        });
+                        localChart.addTitle();
                         stylish(localChart).legendIcons(false,true);
                         stylish(localChart).labelText();
                         removeLoading();
