@@ -54,5 +54,6 @@ var ICONES_TIPOS = {
 	'areas': '<img src="https://maxcdn.icons8.com/Android_L/PNG/24/Data/area_chart-24.png">',
 	'stackedareas': '<img src="https://maxcdn.icons8.com/Android_L/PNG/24/Data/area_chart-24.png">',
 	'lines': '<img src="https://maxcdn.icons8.com/Android_L/PNG/24/Data/line_chart-24.png">',
-	'stackedlines': '<img src="https://maxcdn.icons8.com/Android_L/PNG/24/Data/line_chart-24.png">'
+	'stackedlines': '<img src="https://maxcdn.icons8.com/Android_L/PNG/24/Data/line_chart-24.png">',
+	'geo': '<img src="http://xtr-tinto.consiste.com.br/xtr/recursos-v4.nsf/brasil.png" width="25">'
 }
