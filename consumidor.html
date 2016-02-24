@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>consumidor</title>
+</head>
+<body>
+	<input type="text" id="metodo" value="get"></input>
+	<input type="text" id="rota" ></input>
+	<button id="butao">
+		enviar
+	</button>
+
+	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded",function(){
+			document.getElementById("butao").addEventListener("click",function(){
+				var metodo,rota;
+				var url;
+				var requester;
+
+				rota = document.getElementById("rota").value;
+				metodo = document.getElementById("metodo").value;
+
+				requester = new XMLHttpRequest();
+				method = metodo;
+			    url = 'http://localhost/service.nsf/provedor.xsp/'+rota;
+			    
+				requester.open(method, url, true);
+				requester.onreadystatechange = function () {
+					console.log(this);
+
+				    if (requester.readyState !== XMLHttpRequest.DONE) {
+				        return;
+				    }
+				    if (requester.status !== 200) {
+				        return;
+				    }
+				};				
+				requester.send(null);
+			});
+		})
+
+	</script>
+</body>
+</html>

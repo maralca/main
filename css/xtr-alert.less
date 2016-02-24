@@ -81,7 +81,14 @@ danger		hsl(1, 44%, 46%); 		hsl(1, 43%, 91%);		1 , 1 , -45
 
 	color:#EAEAEA !important
 }
-
+.makeLabel(@x,@y){
+	.xtr.label{
+		&.@{x}{
+			border-color: @y !important;
+			color: spin(saturate(lighten(@y,40%),10%),10) !important; 
+		}
+	}
+}
 .xtr.label {
 	position:absolute;
 	top:0;
@@ -90,7 +97,8 @@ danger		hsl(1, 44%, 46%); 		hsl(1, 43%, 91%);		1 , 1 , -45
 	margin:0;
 	padding:0;
 
-	border-color:#e8e8e8;
+	border-color: #cecece;
+
 	width:1.8em;
 	height:1.8em;
 	z-index:1;
@@ -164,8 +172,14 @@ danger		hsl(1, 44%, 46%); 		hsl(1, 43%, 91%);		1 , 1 , -45
 .color(salmao,@salmao);
 
 
+@xtrRoxo: hsl(280, 60%, 50%);
+@xtrVerde: hsl(80, 100%, 30%);
+@xtrVermelho: hsl(0, 100%, 40%);
+@xtrAzul: hsl(195, 100%, 40%);
+@xtrAmarelo: hsl(32, 100%, 50%);
 
-
-
-
-
+.makeLabel(roxo,@xtrRoxo);
+.makeLabel(verde,@xtrVerde);
+.makeLabel(vermelho,@xtrVermelho);
+.makeLabel(azul,@xtrAzul);
+.makeLabel(amarelo,@xtrAmarelo);
