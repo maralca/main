@@ -7,9 +7,41 @@
 	</head>
 
 	<style type="text/css">
-		div{
+		div:not(.laco){
 			margin: 0.3em !important;
 			width: 200px;
+		}
+		.laco{
+			display: inline-block;
+			position: relative;
+
+			margin-left: 1.8em;
+			padding: .6em 1.2em;
+
+			text-transform: none;
+			font-weight: 700;
+			border: 0 solid transparent;
+
+			background-image: none;
+			background-color: hsl(0, 0%, 91%);
+			color: hsla(0, 0%, 0%, 0.6);
+		}
+		.laco:before{
+			content: '';
+			
+			position: absolute;
+
+			background-color: inherit;
+			background-image: none;
+			-webkit-transform: translateY(-50%) translateX(50%) rotate(-45deg);
+			-ms-transform: translateY(-50%) translateX(50%) rotate(-45deg);
+			transform: translateY(-50%) translateX(50%) rotate(-45deg);
+
+			top: 50%;
+			right: 100%;
+
+			width: 1.75em;
+			height: 1.75em;
 		}
 	</style>
 	<body>
@@ -29,5 +61,8 @@
 		<div class="xtr alert padding normal arredondado fucsia"> fucsia </div>
 		<div class="xtr alert padding normal arredondado rosa"> rosa </div>
 		<div class="xtr alert padding normal arredondado salmao"> salmao </div>
+
+		<div class="laco direito"> lalala </div>	
+
 	</body>
 </html>

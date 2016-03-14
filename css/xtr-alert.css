@@ -1,3 +1,18 @@
+/*
+@BACKGROUND: hsl(103, 44%, 89%)
+@BORDA: hsl(93, 44%, 85%);  (-10,0,-4)
+@BACKGROUND_END: hsl(102, 44%, 82%); (-1,0,-7)
+@BORDA_TOP: hsl(92, 45%, 79%); (-11,+1,-10)
+@BORDA2: hsl(102, 45%, 75%); (-1,+1,-14)
+@FONTE:  hsl(121, 33%, 35%); (+18,-11,-54)
+@FONTE_LINK: hsl(121, 32%, 25%); (+18,-12,-64)
+
+success 	hsl(121, 33%, 35%); 	hsl(103, 44%, 89%);  18 , -11 , -54
+info		hsl(200, 49%, 38%); 	hsl(200, 65%, 91%);  0 ,  -16 , -53
+warning 	hsl(38, 40%, 39%);		hsl(50, 81%, 94%); -12 , -41 , -55
+danger		hsl(1, 44%, 46%); 		hsl(1, 43%, 91%);		1 , 1 , -45
+*/
+
 [class*="xtr alert"].arredondado {
   border-radius: .4em;
   margin: 0.3em;
@@ -26,10 +41,10 @@
   padding: 1.2em 2.4em;
 }
 [class*="xtr alert"].inverse {
-  color: #ddd !important;
+  color: #dddddd !important;
 }
 .xtr.label {
-  background-color: #C9D8EA !important;
+  background-color: #c9d8ea !important;
   border-color: inherit !important;
   color: #eaeaea !important;
 }
@@ -73,8 +88,38 @@
   -webkit-transition: border-color 0.1s ease;
   transition: border-color 0.1s ease;
 }
+.xtr.ponteiro {
+  display: inline-block;
+  position: relative;
+  margin-left: 1.8em;
+  padding: .6em 1.2em;
+  text-transform: none;
+  font-weight: 700;
+  border: 0 solid transparent;
+  background-image: none;
+}
+.xtr.ponteiro:before {
+  content: '';
+  position: absolute;
+  background-color: inherit;
+  background-image: inherit;
+  border-top: inherit;
+  border-left: inherit;
+  -webkit-transform: translateY(-50%) translateX(50%) rotate(-45deg);
+  -ms-transform: translateY(-50%) translateX(50%) rotate(-45deg);
+  transform: translateY(-50%) translateX(50%) rotate(-45deg);
+  top: 50%;
+  right: 100%;
+  width: 1.75em;
+  height: 1.75em;
+}
+.xtr.ponteiro,
+.xtr.ponteiro.default {
+  background-color: #e8e8e8;
+  color: rgba(0, 0, 0, 0.6);
+}
 [class*="xtr alert"].inverse {
-  color: #000000;
+  color: black;
   background-color: #666666;
   border: solid 1px #4d4d4d;
 }
@@ -85,7 +130,7 @@
   border-top-color: #4d4d4d;
 }
 [class*="xtr alert"].inverse .link {
-  color: #000000;
+  color: black;
 }
 [class*="xtr alert"].inverse {
   background-image: -webkit-linear-gradient(top, #666666 0%, #4d4d4d 100%);
@@ -105,7 +150,7 @@
   border-top-color: #cccccc;
 }
 [class*="xtr alert"].default .link {
-  color: #333333;
+  color: #343434;
 }
 [class*="xtr alert"].default {
   background-image: -webkit-linear-gradient(top, #e6e6e6 0%, #cccccc 100%);
@@ -254,7 +299,7 @@
   background-repeat: repeat-x;
 }
 [class*="xtr alert"].ciano {
-  color: #1fa1ad;
+  color: #1fa2ad;
   background-color: #cffcf9;
   border: solid 1px #b8e0d6;
 }
@@ -399,7 +444,7 @@
 }
 .xtr.label.verde {
   border-color: #669900 !important;
-  color: #b2ff66 !important;
+  color: #b3ff66 !important;
 }
 .xtr.label.vermelho {
   border-color: #cc0000 !important;

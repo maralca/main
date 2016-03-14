@@ -89,6 +89,7 @@ danger		hsl(1, 44%, 46%); 		hsl(1, 43%, 91%);		1 , 1 , -45
 		}
 	}
 }
+
 .xtr.label {
 	position:absolute;
 	top:0;
@@ -133,6 +134,53 @@ danger		hsl(1, 44%, 46%); 		hsl(1, 43%, 91%);		1 , 1 , -45
 
 	-webkit-transition:border-color .1s ease;
 	transition:border-color .1s ease
+}
+.xtr.ponteiro{
+	display: inline-block;
+	position: relative;
+
+	margin-left: 1.8em;
+	padding: .6em 1.2em;
+
+	text-transform: none;
+	font-weight: 700;
+	border: 0 solid transparent;
+
+	background-image: none;
+}
+.xtr.ponteiro:before{
+	content: '';
+	
+	position: absolute;
+
+	background-color: inherit;
+	background-image: inherit;
+
+	border-top: inherit;
+	border-left: inherit;
+
+	-webkit-transform: translateY(-50%) translateX(50%) rotate(-45deg);
+	-ms-transform: translateY(-50%) translateX(50%) rotate(-45deg);
+	transform: translateY(-50%) translateX(50%) rotate(-45deg);
+
+	top: 50%;
+	right: 100%;
+
+	width: 1.75em;
+	height: 1.75em;
+}
+.xtr.ponteiro,
+.xtr.ponteiro.default{
+	background-color: hsl(0, 0%, 91%);
+	color: hsla(0, 0%, 0%, 0.6);
+}
+.makePointer(@x,@y){
+	.xtr.ponteiro{
+		&.@{x}{
+			background-color: @y !important;
+			color: spin(saturate(lighten(@y,40%),10%),10) !important; 
+		}
+	}
 }
 
 @default:hsl(1, 0%, 90%);
